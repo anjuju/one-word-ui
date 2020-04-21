@@ -1,0 +1,54 @@
+:root {
+  --main-bg-color: #404357;
+  --secondary-color: #7d8da8;
+  --red: #b01320;
+  --hotPink: #c325db;
+  --pink: #d674af;
+  --orange: #db8f37;
+  --yellow: #c9c30c;
+  --green: #20bd0f;
+  --teal: #0a7d5e;
+  --blue: #1679db;
+  --purple: #6213d1;
+  --black: #000000;
+}
+
+.App__container {
+  text-align: center;
+  background-color: var(--main-bg-color);
+  min-height: 100vh;
+  min-width: 100vw;
+  color: white;
+
+  font-size: 2vw;
+}
+
+button {
+  background-color: var(--secondary-color);
+  font-size: 2vw;
+}
+
+input {
+  font-size: 2vw;
+  margin: 1vw;
+}
+
+header {
+  padding: 1vw;
+}
+
+/* Set Up */
+
+.setup__container {
+  margin: 5vw;
+}
+
+.setup__instructions {
+  border: 3px solid white;
+  padding: 1vw;
+  margin-bottom: 5vw;
+}
+
+.setup__start-game {
+  margin: 3vw;
+}
