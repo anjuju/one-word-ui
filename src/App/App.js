@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 
 import SetUp from '../Components/SetUp';
 // import Guesser from '../Components/Guesser';
