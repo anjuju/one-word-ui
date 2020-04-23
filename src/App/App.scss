@@ -26,7 +26,7 @@ $color-list: $red, $hotPink, $pink, $orange, $yellow, $green, $teal, $blue, $pur
 
 button {
   background-color: $secondary-color;
-  font-size: 2vw;
+  font-size: inherit;
   margin: 1vw;
   padding: 1vw;
 
@@ -37,12 +37,15 @@ button {
 }
 
 input {
-  font-size: 2vw;
+  font-size: inherit;
   margin: 1vw;
+  border-radius: 5px;
 }
 
 header {
-  padding: 1vw;
+  h1 {
+    margin: 0 auto;
+  }
 }
 
 main {
@@ -54,14 +57,16 @@ main {
 
 /* Set Up */
 
-.setup__container {
-  margin: 5vw;
+.setup__instructions {
+  border: 5px double white;
+  border-radius: 5px;
+  padding: 2vw;
+  max-width: 60vw;
+  margin: 5vw auto;
 }
 
-.setup__instructions {
-  border: 3px solid white;
-  padding: 1vw;
-  margin-bottom: 5vw;
+.setup__color__container {
+  margin: 3vw auto;
 }
 
 .setup__color__row {
@@ -78,8 +83,8 @@ main {
 
   &:checked + .setup__color {
     border: 0.4vw solid white;
-    width: 9.2vw;
-    height: 9.2vw;
+    width: calc(10vw - (2 * 0.4vw));
+    height: calc(10vw - (2 * 0.4vw));
   }
 }
 
@@ -96,12 +101,6 @@ main {
     }
   }
 
-  // @each $color in $color-list {
-  //   &--#{$color} {
-  //     background-color: $color;
-  //   }
-  // }
-
   &:hover {
     opacity: 80%;
   }
@@ -110,4 +109,27 @@ main {
 
 .setup__start-game {
   margin: 3vw;
+}
+
+@media only screen and (max-width: 1000px) {
+
+  .App__container {
+    font-size: 3vw;
+  }
+  
+  .setup__instructions {
+    max-width: 80vw;
+  }
+
+  .setup__color {
+    width: 15vw;
+    height: 15vw;
+  }
+
+  .setup_color__radio:checked + .setup__color {
+    border: 0.6vw solid white;
+    width: calc(15vw - (2 * 0.6vw));
+    height: calc(15vw - (2 * 0.6vw));
+  }
+
 }

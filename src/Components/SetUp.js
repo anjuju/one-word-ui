@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-const instructions = "This is a collaborative game. One person from your team will try to guess a mystery word using only one-word clues given by the other team members. The other team members cannot discuss their clues. If players write the same clue, it will cancel out and the guesser won't be able to see it."
+const instructions = "This is a collaborative game. One person from your team will try to guess a mystery word using only one-word clues given by the other team members. The other team members cannot discuss their clues. If players write the same clue, they will cancel out and the guesser won't be able to see it."
 
 const colors = ['red', 'hotPink', 'pink', 'orange', 'yellow', 'green', 'teal', 'blue', 'purple', 'black'];
 
@@ -23,8 +23,6 @@ class SetUp extends React.Component {
       color
     });
   }
-
-  onTest = () => console.log('state', this.state);
 
   render() {
     return (
@@ -71,9 +69,8 @@ class SetUp extends React.Component {
           <button className="setup__submit" onClick={()=>this.props.onSubmitName(this.state.name, this.state.color)}>Submit</button>
         </div>
         <div className="setup__start-game">
-          When all of the players have entered their names, press: 
+          When all of the players are ready, press: 
           <button className="setup__start-game__button" onClick={this.props.onStartGame}>Start Game</button>
-          <button onClick={this.onTest}>Test</button>
         </div>
       </section>
     )
