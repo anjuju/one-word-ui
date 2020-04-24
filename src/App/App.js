@@ -12,6 +12,8 @@ const socketEndPoint = 'http://localhost:8080/';
 // Connect to the socket
 const socket = socketIOClient(socketEndPoint); 
 
+const api = process.env.REACT_APP_ONE_WORD_API;
+
 class App extends React.Component {
   state = {
     name: '',
@@ -19,12 +21,12 @@ class App extends React.Component {
   }
 
   handleSubmitName = async (name, color) => {
-    const response = await fetch(`${process.env.ONE_WORD_API}/player`, {
+    const response = await fetch(`${api}/player`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, color })
     });
-    console.log(response);
+    console.log(response.body);
 
     // add socket.on for color choice
 
