@@ -32,7 +32,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    socket.on('startingGame', data => {
+    socket.on('startingRound', data => {
       console.log('starting game in react');
       const { activePlayer, activeColor, activeWord } = data;
       if (this.state.name === activePlayer) {
@@ -89,8 +89,8 @@ class App extends React.Component {
     }
   }
 
-  handleStartGame = () => {
-    socket.emit('startGame');
+  handleStartRound = () => {
+    socket.emit('startRound');
   }
 
   onClueSubmit = (clue) => {
@@ -118,7 +118,7 @@ class App extends React.Component {
         </header>
         <main>
           {(!completeSetup ?
-            <SetUp socket={socket} onSubmitName={this.handleSubmitName} onStartGame={this.handleStartGame}/> :    
+            <SetUp socket={socket} onSubmitName={this.handleSubmitName} onStartGame={this.handleStartRound}/> :    
             (active.status ? 
               <Waiting /> :
               (!allCluesGiven ?
@@ -127,7 +127,7 @@ class App extends React.Component {
               )
             )
           )}
-          {readyToGuess && <Guessing clues={this.state.clues} />}
+          {readyToGuess && <Guessing clues={this.state.clues} onNextRound={this.handleStartRound} />}
           <NumberCorrect numberCorrect={numberCorrect} />
         </main>
         <footer></footer>
