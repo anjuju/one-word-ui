@@ -10,7 +10,7 @@ $teal: #0a7d5e;
 $blue: #1679db;
 $purple: #6213d1;
 $black: #000000;
-$color-list: $red, $hotPink, $pink, $orange, $yellow, $green, $teal, $blue, $purple, $black;
+// $color-list: $red, $hotPink, $pink, $orange, $yellow, $green, $teal, $blue, $purple, $black;
 $color-map: (
   "red": $red,
   "hotPink": $hotPink,
@@ -24,7 +24,7 @@ $color-map: (
   "black": $black
 );
 
-@use "sass:list";
+// @use "sass:list";
 
 @mixin build-color-class {
   @each $color, $color-var in $color-map {
@@ -116,9 +116,14 @@ main {
   border-radius: 5px;
   cursor: pointer;
 
-  @for $i from 1 through 10 {
-    &--#{$i} {
-      background-color: nth($color-list, $i);
+  // @for $i from 1 through 10 {
+  //   &--#{$i} {
+  //     background-color: nth($color-list, $i);
+  //   }
+  // }
+  @each $color, $color-var in $color-map {
+    &--#{$color} {
+      background-color: $color-var
     }
   }
 
@@ -130,6 +135,15 @@ main {
 
 .setup__start-game {
   margin: 3vw;
+}
+
+/* Card styles */
+.word-card {
+  @include build-color-class;
+}
+
+.active-player {
+  @include build-color-class;
 }
 
 @media only screen and (max-width: 1000px) {

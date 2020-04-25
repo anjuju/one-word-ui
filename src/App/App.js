@@ -37,7 +37,7 @@ class App extends React.Component {
         activeColor: data.activeColor,
         activeWord: data.activeWord
       });
-    })
+    });
   }
 
   handleSubmitName = async (name, color) => {
@@ -49,7 +49,9 @@ class App extends React.Component {
       });
   
       socket.emit('chooseColor', { color });
-  
+      
+      console.log(response);
+
       this.setState({
         name,
         color
@@ -64,7 +66,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { name, color, completeSetup, activePlayer, activeColor } = this.state;
+    const { completeSetup, activePlayer } = this.state;
     return (
       <div className="App__container">
         <header>

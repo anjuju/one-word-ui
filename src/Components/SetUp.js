@@ -31,17 +31,16 @@ class SetUp extends React.Component {
   }
 
   onColorSelection = (e) => {
-    const color = colors[parseInt(e.target.classList.item(1).replace('setup__color--', ''))-1];
+    const color = e.target.classList.item(1).replace('setup__color--', '');
     this.setState({
       color
     });
   }
 
   onRemoveColor = (color) => {
-    let colorNum = colors.indexOf(color)+1;
-    if (colorNum > 0) {
-      document.getElementById(`choose-color-${colorNum}`).disabled = true;
-      document.getElementsByClassName(`setup__color setup__color--${colorNum}`)[0].style.opacity = '0%';
+    if (colors.includes(color)) {
+      document.getElementById(`choose-color-${color}`).disabled = true;
+      document.getElementsByClassName(`setup__color setup__color--${color}`)[0].style.opacity = '0%';
     } else {
       console.log(color + 'not found');
     }
@@ -75,18 +74,18 @@ class SetUp extends React.Component {
               <button onClick={this.onColorSelection} className="setup__color setup__color--black"></button>
             </div> */}
             <div className="setup__color__row">
-              <input id="choose-color-1" type="radio" name="color" className="setup_color__radio" /><label htmlFor="choose-color-1" onClick={this.onColorSelection} className="setup__color setup__color--1"></label>
-              <input id="choose-color-2" type="radio" name="color" className="setup_color__radio" /><label htmlFor="choose-color-2" onClick={this.onColorSelection} className="setup__color setup__color--2"></label>
-              <input id="choose-color-3" type="radio" name="color" className="setup_color__radio" /><label htmlFor="choose-color-3" onClick={this.onColorSelection} className="setup__color setup__color--3"></label>
-              <input id="choose-color-4" type="radio" name="color" className="setup_color__radio" /><label htmlFor="choose-color-4" onClick={this.onColorSelection} className="setup__color setup__color--4"></label>
-              <input id="choose-color-5" type="radio" name="color" className="setup_color__radio" /><label htmlFor="choose-color-5" onClick={this.onColorSelection} className="setup__color setup__color--5"></label>
+              <input id={`choose-color-${colors[0]}`} type="radio" name="color" className="setup_color__radio" /><label htmlFor={`choose-color-${colors[0]}`} onClick={this.onColorSelection} className={`setup__color setup__color--${colors[0]}`}></label>
+              <input id={`choose-color-${colors[1]}`} type="radio" name="color" className="setup_color__radio" /><label htmlFor={`choose-color-${colors[1]}`} onClick={this.onColorSelection} className={`setup__color setup__color--${colors[1]}`}></label>
+              <input id={`choose-color-${colors[2]}`} type="radio" name="color" className="setup_color__radio" /><label htmlFor={`choose-color-${colors[2]}`} onClick={this.onColorSelection} className={`setup__color setup__color--${colors[2]}`}></label>
+              <input id={`choose-color-${colors[3]}`} type="radio" name="color" className="setup_color__radio" /><label htmlFor={`choose-color-${colors[3]}`} onClick={this.onColorSelection} className={`setup__color setup__color--${colors[3]}`}></label>
+              <input id={`choose-color-${colors[4]}`} type="radio" name="color" className="setup_color__radio" /><label htmlFor={`choose-color-${colors[4]}`} onClick={this.onColorSelection} className={`setup__color setup__color--${colors[4]}`}></label>
             </div>
             <div className="setup__color__row">
-              <input id="choose-color-6" type="radio" name="color" className="setup_color__radio" /><label htmlFor="choose-color-6" onClick={this.onColorSelection} className="setup__color setup__color--6"></label>
-              <input id="choose-color-7" type="radio" name="color" className="setup_color__radio" /><label htmlFor="choose-color-7" onClick={this.onColorSelection} className="setup__color setup__color--7"></label>
-              <input id="choose-color-8" type="radio" name="color" className="setup_color__radio" /><label htmlFor="choose-color-8" onClick={this.onColorSelection} className="setup__color setup__color--8"></label>
-              <input id="choose-color-9" type="radio" name="color" className="setup_color__radio" /><label htmlFor="choose-color-9" onClick={this.onColorSelection} className="setup__color setup__color--9"></label>
-              <input id="choose-color-10" type="radio" name="color" className="setup_color__radio"/><label htmlFor="choose-color-10" onClick={this.onColorSelection} className="setup__color setup__color--10"></label>
+              <input id={`choose-color-${colors[5]}`} type="radio" name="color" className="setup_color__radio" /><label htmlFor={`choose-color-${colors[5]}`}onClick={this.onColorSelection} className={`setup__color setup__color--${colors[5]}`}></label>
+              <input id={`choose-color-${colors[6]}`} type="radio" name="color" className="setup_color__radio" /><label htmlFor={`choose-color-${colors[6]}`}onClick={this.onColorSelection} className={`setup__color setup__color--${colors[6]}`}></label>
+              <input id={`choose-color-${colors[7]}`} type="radio" name="color" className="setup_color__radio" /><label htmlFor={`choose-color-${colors[7]}`}onClick={this.onColorSelection} className={`setup__color setup__color--${colors[7]}`}></label>
+              <input id={`choose-color-${colors[8]}`} type="radio" name="color" className="setup_color__radio" /><label htmlFor={`choose-color-${colors[8]}`}onClick={this.onColorSelection} className={`setup__color setup__color--${colors[8]}`}></label>
+              <input id={`choose-color-${colors[9]}`} type="radio" name="color" className="setup_color__radio" /><label htmlFor={`choose-color-${colors[9]}`}onClick={this.onColorSelection} className={`setup__color setup__color--${colors[9]}`}></label>
             </div>
           </div>
           <button className="setup__submit" onClick={()=>this.props.onSubmitName(this.state.name, this.state.color)}>Submit</button>
