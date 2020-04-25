@@ -2,55 +2,61 @@ import React from 'react';
 import './App.scss';
 
 import SetUp from '../Components/SetUp';
-import Guesser from '../Components/Guesser';
-import ClueGiver from '../Components/ClueGiver';
+import Waiting from '../Components/Guess/Waiting';
+import ClueGiver from '../Components/Clues/ClueGiver';
+import CheckClues from '../Components/Clues/CheckClues';
+import Guessing from '../Components/Guess/Guessing';
 
-/* Socket IO */
 import socketIOClient from 'socket.io-client';
 const socketEndPoint = 'http://localhost:8080/';
-
-// Connect to the socket
 const socket = socketIOClient(socketEndPoint); 
 
-const api = process.env.REACT_APP_ONE_WORD_API;
+// const api = process.env.REACT_APP_ONE_WORD_API;
 
 class App extends React.Component {
   state = {
     name: '',
     color: '',
     completeSetup: false,
-    activePlayer: false,
+    active: false,
+    allCluesGiven: false,
+    readyToGuess: false,
   }
 
   componentDidMount() {
     socket.on('startingGame', data => {
-      console.log('name', this.state.name);
       console.log('starting game in react');
-      if (this.state.name === data.activePlayer) {
+      const { activePlayer, activeColor, activeWord } = data;
+      if (this.state.name === activePlayer) {
         console.log('setting active true');
         this.setState({
-          activePlayer: true
+          active: true
         });
       }
       this.setState({
         completeSetup: true,
-        activeColor: data.activeColor,
-        activeWord: data.activeWord
+        activePlayer,
+        activeColor,
+        activeWord
       });
     });
+    socket.on('checkClues', data => {
+      this.setState({
+        allCluesGiven: true,
+        clues: data.clues
+      });
+    })
   }
 
   handleSubmitName = async (name, color) => {
     if (name !== '' && color !== '') {
-      const response = await fetch(`${api}/player`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, color })
-      });
-  
+      // const response = await fetch(`${api}/player`, {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ name, color })
+      // });
+      socket.emit('submitSetUp', { name, color });
       socket.emit('chooseColor', { color });
-      
-      console.log(response);
 
       this.setState({
         name,
@@ -65,17 +71,39 @@ class App extends React.Component {
     socket.emit('startGame');
   }
 
+  onClueSubmit = (clue) => {
+    socket.emit('submitClue', { name: this.state.name, clue });
+  }
+
+  removeClue = (clue) => {
+    socket.emit('removeClue', { clue });
+  }
+
+  onFinishChecking = () => {
+    this.setState({
+      readyToGuess: true
+    });
+  }
+  
   render() {
-    const { completeSetup, activePlayer } = this.state;
+    const { completeSetup, active, allCluesGiven, readyToGuess } = this.state;
     return (
       <div className="App__container">
         <header>
           <h1>One Word</h1>
         </header>
         <main>
-          {(completeSetup ?
-          (activePlayer ? <Guesser/> : <ClueGiver state={this.state}/>) :
-          <SetUp socket={socket} onSubmitName={this.handleSubmitName} onStartGame={this.handleStartGame}/>)}
+          {(!completeSetup ?
+            <SetUp socket={socket} onSubmitName={this.handleSubmitName} onStartGame={this.handleStartGame}/> :    
+            (active ? 
+              <Waiting /> :
+              (!allCluesGiven ?
+                <ClueGiver state={this.state} onSubmit={this.onClueSubmit}/> :
+                <CheckClues clues={this.state.clues} onRemove={this.removeClue} onFinish={this.onFinishChecking}/>
+              )
+            )
+          )}
+          {readyToGuess && <Guessing />}
         </main>
         <footer></footer>
       </div>
