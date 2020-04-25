@@ -1,0 +1,14 @@
+// $red
+// $hotPink
+// $pink
+// $orange
+// $yellow
+// $green
+// $teal
+// $blue
+// $purple
+// $black
+
+.word-card {
+  @include build-color-class;
+}

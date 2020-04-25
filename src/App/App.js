@@ -2,8 +2,8 @@ import React from 'react';
 import './App.scss';
 
 import SetUp from '../Components/SetUp';
-// import Guesser from '../Components/Guesser';
-// import ClueGiver from '../Components/ClueGiver';
+import Guesser from '../Components/Guesser';
+import ClueGiver from '../Components/ClueGiver';
 
 /* Socket IO */
 import socketIOClient from 'socket.io-client';
@@ -18,36 +18,62 @@ class App extends React.Component {
   state = {
     name: '',
     color: '',
+    completeSetup: false,
+    activePlayer: false,
+  }
+
+  componentDidMount() {
+    socket.on('startingGame', data => {
+      console.log('name', this.state.name);
+      console.log('starting game in react');
+      if (this.state.name === data.activePlayer) {
+        console.log('setting active true');
+        this.setState({
+          activePlayer: true
+        });
+      }
+      this.setState({
+        completeSetup: true,
+        activeColor: data.activeColor,
+        activeWord: data.activeWord
+      });
+    })
   }
 
   handleSubmitName = async (name, color) => {
-    const response = await fetch(`${api}/player`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, color })
-    });
-    console.log(response.body);
-
-    // add socket.on for color choice
-
-    this.setState({
-      name,
-      color
-    });
+    if (name !== '' && color !== '') {
+      const response = await fetch(`${api}/player`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, color })
+      });
+  
+      socket.emit('chooseColor', { color });
+  
+      this.setState({
+        name,
+        color
+      });
+    } else {
+      alert('Please enter your name and choose a color.');
+    }
   }
 
   handleStartGame = () => {
-
+    socket.emit('startGame');
   }
 
   render() {
+    const { name, color, completeSetup, activePlayer, activeColor } = this.state;
     return (
       <div className="App__container">
         <header>
           <h1>One Word</h1>
         </header>
         <main>
-          <SetUp onSubmitName={this.handleSubmitName} onStartGame={this.handleStartGame}/>
+          {(completeSetup ?
+          (activePlayer ? <Guesser/> : <ClueGiver state={this.state}/>) :
+          <SetUp socket={socket} onSubmitName={this.handleSubmitName} onStartGame={this.handleStartGame}/>)}
         </main>
         <footer></footer>
       </div>

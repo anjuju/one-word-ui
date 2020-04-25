@@ -11,8 +11,29 @@ $blue: #1679db;
 $purple: #6213d1;
 $black: #000000;
 $color-list: $red, $hotPink, $pink, $orange, $yellow, $green, $teal, $blue, $purple, $black;
+$color-map: (
+  "red": $red,
+  "hotPink": $hotPink,
+  "pink": $pink,
+  "orange": $orange,
+  "yellow": $yellow,
+  "green": $green,
+  "teal": $teal,
+  "blue": $blue,
+  "purple": $purple,
+  "black": $black
+);
 
 @use "sass:list";
+
+@mixin build-color-class {
+  @each $color, $color-var in $color-map {
+    &--#{$color} {
+      border: 3px solid $color-var;
+      color: $color-var;
+    }
+  }
+}
 
 .App__container {
   text-align: center;
@@ -133,3 +154,6 @@ main {
   }
 
 }
+
+
+

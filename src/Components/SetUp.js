@@ -5,10 +5,23 @@ const instructions = "This is a collaborative game. One person from your team wi
 
 const colors = ['red', 'hotPink', 'pink', 'orange', 'yellow', 'green', 'teal', 'blue', 'purple', 'black'];
 
+
 class SetUp extends React.Component {
   state = {
     name: '',
-    color: ''
+    color: '',
+    removeColors: []
+  }
+
+  componentDidMount() {
+    this.props.socket.on('removeColors', data => {
+      let newRemoveColors = [...this.state.removeColors, data.color];
+      this.setState({
+        removeColors: newRemoveColors
+      });
+      console.log('removing color', data.color);
+      this.onRemoveColor(data.color);
+    });
   }
 
   handleChange = (e) => {
@@ -22,6 +35,16 @@ class SetUp extends React.Component {
     this.setState({
       color
     });
+  }
+
+  onRemoveColor = (color) => {
+    let colorNum = colors.indexOf(color)+1;
+    if (colorNum > 0) {
+      document.getElementById(`choose-color-${colorNum}`).disabled = true;
+      document.getElementsByClassName(`setup__color setup__color--${colorNum}`)[0].style.opacity = '0%';
+    } else {
+      console.log(color + 'not found');
+    }
   }
 
   render() {
