@@ -2,10 +2,17 @@ import React from 'react';
 import WordCard from '../Cards/WordCard';
 
 class CheckClues extends React.Component {
-  
+  state = {
+    clues: []
+  }
+
+  componentDidMount() {
+    this.setState({
+      clues: this.props.clues
+    })
+  }
  
   render() {
-    const { clues } = this.props;
     return (
       <div className="check-clues__container">
         {clues.map(clueBundle => (

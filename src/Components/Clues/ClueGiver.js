@@ -15,7 +15,7 @@ class ClueGiver extends React.Component {
   }
   
   render() {
-    const { activePlayer, activeColor, activeWord } = this.props.state;
+    const { activePlayer, activeColor, activeWord } = this.props.active;
     return (
       <div className="clue-giver__component">
         <div className="clue-giver__active-word">

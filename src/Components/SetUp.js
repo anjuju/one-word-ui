@@ -19,7 +19,7 @@ class SetUp extends React.Component {
       this.setState({
         removeColors: newRemoveColors
       });
-      console.log('removing color', data.color);
+      //console.log('removing color', data.color);
       this.onRemoveColor(data.color);
     });
   }
