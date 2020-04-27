@@ -120,9 +120,9 @@ class App extends React.Component {
           {(!completeSetup ?
             <SetUp socket={socket} onSubmitName={this.handleSubmitName} onStartGame={this.handleStartRound}/> :    
             (active.status ? 
-              <Waiting /> :
+              (active.status && <Waiting />) :
               (!allCluesGiven ?
-                <ClueGiver active={this.state.active} onSubmit={this.onClueSubmit}/> :
+                (!allCluesGiven && <ClueGiver active={this.state.active} onSubmit={this.onClueSubmit}/>) :
                 <CheckClues clues={this.state.clues} onRemove={this.removeClue} onFinish={this.onFinishChecking}/>
               )
             )

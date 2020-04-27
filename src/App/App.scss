@@ -29,7 +29,7 @@ $color-map: (
 @mixin build-color-class {
   @each $color, $color-var in $color-map {
     &--#{$color} {
-      border: 3px solid $color-var;
+      border: 10px solid $color-var;
       color: $color-var;
     }
   }
