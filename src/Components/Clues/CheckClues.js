@@ -11,14 +11,23 @@ class CheckClues extends React.Component {
       clues: this.props.clues
     })
   }
+
+  removeClue = (clueBundle, i) => {
+    const newClues = [...this.state.clues];
+    newClues.splice(i, 1);
+    this.setState({
+      clues: newClues
+    });
+    this.props.onRemove(clueBundle.clue)
+  }
  
   render() {
     return (
       <div className="check-clues__container">
-        {clues.map(clueBundle => (
+        {this.state.clues.map((clueBundle, i) => (
           <div key={clueBundle.name} className="check-clues__clue">
             <WordCard name={clueBundle.name} color={clueBundle.color} content={clueBundle.clue} />
-            <button className="check-clues__remove-btn" onClick={()=>this.props.onRemove(clueBundle.clue)}>Remove clue</button>
+            <button className="check-clues__remove-btn" onClick={()=>this.removeClue(clueBundle, i)}>Remove clue</button>
           </div>
         ))}
         <button className="check-clues__finish" onClick={this.props.onFinish}>Finished</button>

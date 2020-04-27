@@ -25,7 +25,7 @@ class ClueGiver extends React.Component {
         <div className="clue-giver__clue">
           Clue: 
           <input type="text" onChange={this.handleChange}/>
-          <button className="clue-giver__clue-submit" onClick={()=>this.onSubmit(this.state.clue)}>
+          <button className="clue-giver__clue-submit" onClick={()=>this.props.onSubmit(this.state.clue)}>
             Submit
           </button>
         </div>

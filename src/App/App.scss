@@ -140,6 +140,9 @@ main {
 /* Card styles */
 .word-card {
   @include build-color-class;
+  background-color: white;
+  border-radius: 5px;
+  padding: 2vw;
 }
 
 .active-player {
