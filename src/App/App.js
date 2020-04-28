@@ -7,7 +7,6 @@ import ClueGiver from '../Components/Clues/ClueGiver';
 import CheckClues from '../Components/Clues/CheckClues';
 import Guessing from '../Components/Guess/Guessing';
 import NumberCorrect from '../Components/Cards/NumberCorrect';
-import Players from '../Components/Cards/Players';
 
 import socketIOClient from 'socket.io-client';
 const socketEndPoint = 'http://localhost:8080/';
@@ -19,17 +18,28 @@ class App extends React.Component {
   state = {
     name: '',
     color: '',
-    completeSetup: false,
+    completeSetup: true,
     active: {
-      status: false
+      status: false,
+      activePlayer: 'angelica',
+      activeColor: 'teal',
+      activeWord: 'test'
     },
-    allCluesGiven: false,
+    allCluesGiven: true,
     readyToGuess: false,
     numberCorrect: {
       correct: 0,
       skip: 0,
       wrong: 0,
-    }
+    },
+    clues: [
+      { player_name: 'angelica', color: 'red', clue: 'testA'},
+      { player_name: 'bob', color: 'pink', clue: 'testA'},
+      { player_name: 'cathy', color: 'blue', clue: 'testinnnnggggC'},
+      { player_name: 'dylan', color: 'purple', clue: 'testD'},
+      { player_name: 'elizabeth r', color: 'black', clue: 'testD'},
+      { player_name: 'fran', color: 'yellow', clue: 'testF'},
+    ]
   }
 
   componentDidMount() {
@@ -99,10 +109,6 @@ class App extends React.Component {
     socket.emit('submitClue', { name: this.state.name, color: this.state.color, clue });
   }
 
-  removeClue = (clue) => {
-    socket.emit('removeClue', { clue });
-  }
-
   onFinishChecking = () => {
     socket.emit('finishCheckingClues');
   }
@@ -127,7 +133,7 @@ class App extends React.Component {
                 <Waiting /> :
                 (!allCluesGiven ?
                   <ClueGiver active={this.state.active} onSubmit={this.onClueSubmit}/> :
-                  <CheckClues clues={this.state.clues} onRemove={this.removeClue} onFinish={this.onFinishChecking}/>
+                  <CheckClues socket={socket} clues={this.state.clues} onRemove={this.removeClue} onFinish={this.onFinishChecking}/>
                 )
               ) :
               <Guessing clues={this.state.clues} onNextRound={this.handleStartRound} onGuess={this.updateCorrect} />
@@ -135,12 +141,7 @@ class App extends React.Component {
           )}
           </main>
           <footer>
-            {completeSetup && 
-            <div>
-              <NumberCorrect numberCorrect={numberCorrect} />
-              <Players className="players"/>
-            </div>
-            }
+            {readyToGuess && <NumberCorrect numberCorrect={numberCorrect} />}
           </footer>
         </div>
     );

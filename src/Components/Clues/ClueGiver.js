@@ -16,10 +16,15 @@ class ClueGiver extends React.Component {
   }
 
   submitClue = () => {
-    this.setState({
-      submitted: true
-    });
-    this.props.onSubmit(this.state.clue);
+    const { clue } = this.state;
+    if (clue !== '' && !clue.includes(' ')) {
+      this.setState({
+        submitted: true
+      });
+      this.props.onSubmit(clue);
+    } else {
+      alert('Please enter a one-word clue');
+    }
   }
   
   render() {
@@ -33,11 +38,17 @@ class ClueGiver extends React.Component {
         <div className="clue-giver__clue">
           Clue: 
           <input type="text" onChange={this.handleChange}/>
-          <button className="clue-giver__clue-submit" onClick={this.submitClue}>
-            Submit 
-          </button>
-          {this.state.submitted && (<p className="clue-giver__submitted">&#10004;</p>)}
+          {!this.state.submitted ? 
+          <button className="clue-giver__clue-submit" onClick={this.submitClue}>Submit</button> :
+          <div className="clue-giver__submitted">&#10004;</div>
+          }
         </div>
+        {this.state.submitted &&
+          <div className="player-waiting">
+            Please wait while the rest give their clues. <br/><br/>
+            <div class="lds-circle"><div></div></div>
+          </div>
+        }
       </div>
     );
   }
