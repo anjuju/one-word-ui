@@ -26,11 +26,10 @@ $color-map: (
 
 // @use "sass:list";
 
-@mixin build-color-class {
+@mixin build-color-class($attr) {
   @each $color, $color-var in $color-map {
     &--#{$color} {
-      border: 10px solid $color-var;
-      color: $color-var;
+      #{$attr}: $color-var;
     }
   }
 }
@@ -50,9 +49,10 @@ button {
   font-size: inherit;
   margin: 1vw;
   padding: 1vw;
+  max-height: 5vw;
 
   border-radius: 5px;
-  color: $main-bg-color;
+  color: white;
 
   cursor: pointer;
 }
@@ -137,17 +137,62 @@ main {
   margin: 3vw;
 }
 
+.clue-giver__clue {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.clue-giver__submitted {
+  font-size: 3vw;
+}
+
 /* Card styles */
 .word-card {
-  @include build-color-class;
-  background-color: white;
-  border-radius: 5px;
+  border: 1vw solid;
+  @include build-color-class($attr: 'border-color');
+
+  background-color: #e2e3e9;
+  border-radius: 10px;
   padding: 2vw;
+  margin: 2vw;
+  color: black;
+}
+
+.check-clues__clue {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .active-player {
-  @include build-color-class;
+  @include build-color-class($attr: 'color');
 }
+
+footer {
+  position: absolute;
+  top: 10vw;
+
+  .number-correct__container {
+    left: 10vw;
+    border: 5px double white;
+    border-radius: 5px;
+    padding: 1vw;
+    text-align: right;
+  }
+
+  .players__container {
+    right: 10vw;
+    border: 5px double white;
+    border-radius: 5px;
+    padding: 1vw;
+    text-align: left;
+  }
+
+}
+
+
+  
 
 @media only screen and (max-width: 1000px) {
 

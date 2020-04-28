@@ -1,14 +1,15 @@
 import React from 'react';
 import './App.scss';
-
+// import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import SetUp from '../Components/SetUp';
 import Waiting from '../Components/Guess/Waiting';
 import ClueGiver from '../Components/Clues/ClueGiver';
 import CheckClues from '../Components/Clues/CheckClues';
 import Guessing from '../Components/Guess/Guessing';
+import NumberCorrect from '../Components/Cards/NumberCorrect';
+import Players from '../Components/Cards/Players';
 
 import socketIOClient from 'socket.io-client';
-import NumberCorrect from '../Components/Cards/NumberCorrect';
 const socketEndPoint = 'http://localhost:8080/';
 const socket = socketIOClient(socketEndPoint); 
 
@@ -47,7 +48,9 @@ class App extends React.Component {
           activeColor,
           activeWord,
         },
-        completeSetup: true
+        completeSetup: true,
+        allCluesGiven: false,
+        readyToGuess: false,
       }));
     });
     socket.on('checkClues', data => {
@@ -78,7 +81,6 @@ class App extends React.Component {
       //   body: JSON.stringify({ name, color })
       // });
       socket.emit('submitSetUp', { name, color });
-      socket.emit('chooseColor', { color });
 
       this.setState({
         name,
@@ -88,7 +90,7 @@ class App extends React.Component {
       alert('Please enter your name and choose a color.');
     }
   }
-
+  
   handleStartRound = () => {
     socket.emit('startRound');
   }
@@ -111,27 +113,36 @@ class App extends React.Component {
 
   render() {
     const { completeSetup, active, allCluesGiven, readyToGuess, numberCorrect } = this.state;
+        
     return (
-      <div className="App__container">
-        <header>
-          <h1>One Word</h1>
-        </header>
-        <main>
+        <div className="App__container">
+          <header>
+            <h1>One Word</h1>
+          </header>
+          <main>
           {(!completeSetup ?
             <SetUp socket={socket} onSubmitName={this.handleSubmitName} onStartGame={this.handleStartRound}/> :    
-            (active.status ? 
-              (active.status && <Waiting />) :
-              (!allCluesGiven ?
-                (!allCluesGiven && <ClueGiver active={this.state.active} onSubmit={this.onClueSubmit}/>) :
-                <CheckClues clues={this.state.clues} onRemove={this.removeClue} onFinish={this.onFinishChecking}/>
-              )
+            (!readyToGuess ?
+              (active.status ?
+                <Waiting /> :
+                (!allCluesGiven ?
+                  <ClueGiver active={this.state.active} onSubmit={this.onClueSubmit}/> :
+                  <CheckClues clues={this.state.clues} onRemove={this.removeClue} onFinish={this.onFinishChecking}/>
+                )
+              ) :
+              <Guessing clues={this.state.clues} onNextRound={this.handleStartRound} onGuess={this.updateCorrect} />
             )
           )}
-          {readyToGuess && <Guessing clues={this.state.clues} onNextRound={this.handleStartRound} onGuess={this.updateCorrect} />}
-          <NumberCorrect numberCorrect={numberCorrect} />
-        </main>
-        <footer></footer>
-      </div>
+          </main>
+          <footer>
+            {completeSetup && 
+            <div>
+              <NumberCorrect numberCorrect={numberCorrect} />
+              <Players className="players"/>
+            </div>
+            }
+          </footer>
+        </div>
     );
   }
 }

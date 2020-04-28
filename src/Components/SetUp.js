@@ -59,20 +59,6 @@ class SetUp extends React.Component {
           </label>
           <div className="setup__color__container">
             Choose color:
-            {/* <div className="setup__color__row">
-              <button onClick={this.onColorSelection} className="setup__color setup__color--red"></button>
-              <button onClick={this.onColorSelection} className="setup__color setup__color--hotPink"></button>
-              <button onClick={this.onColorSelection} className="setup__color setup__color--pink"></button>
-              <button onClick={this.onColorSelection} className="setup__color setup__color--orange"></button>
-              <button onClick={this.onColorSelection} className="setup__color setup__color--yellow"></button>
-            </div>
-            <div className="setup__color__row">
-              <button onClick={this.onColorSelection} className="setup__color setup__color--green"></button>
-              <button onClick={this.onColorSelection} className="setup__color setup__color--teal"></button>
-              <button onClick={this.onColorSelection} className="setup__color setup__color--blue"></button>
-              <button onClick={this.onColorSelection} className="setup__color setup__color--purple"></button>
-              <button onClick={this.onColorSelection} className="setup__color setup__color--black"></button>
-            </div> */}
             <div className="setup__color__row">
               <input id={`choose-color-${colors[0]}`} type="radio" name="color" className="setup_color__radio" /><label htmlFor={`choose-color-${colors[0]}`} onClick={this.onColorSelection} className={`setup__color setup__color--${colors[0]}`}></label>
               <input id={`choose-color-${colors[1]}`} type="radio" name="color" className="setup_color__radio" /><label htmlFor={`choose-color-${colors[1]}`} onClick={this.onColorSelection} className={`setup__color setup__color--${colors[1]}`}></label>
