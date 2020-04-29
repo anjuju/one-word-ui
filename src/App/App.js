@@ -18,14 +18,14 @@ class App extends React.Component {
   state = {
     name: '',
     color: '',
-    completeSetup: true,
+    completeSetup: false,
     active: {
       status: false,
       activePlayer: 'angelica',
       activeColor: 'teal',
       activeWord: 'test'
     },
-    allCluesGiven: true,
+    allCluesGiven: false,
     readyToGuess: false,
     numberCorrect: {
       correct: 0,
@@ -46,10 +46,14 @@ class App extends React.Component {
     socket.on('startingRound', data => {
       const { activePlayer, activeColor, activeWord } = data;
       if (this.state.name === activePlayer) {
-        console.log('setting active true');
-        this.setState( prevState => ({
+        //console.log('setting active true');
+        this.setState({
           active: { status: true }
-        }));
+        });
+      } else {
+        this.setState({
+          active: { status: false }
+        });
       }
       this.setState( prevState => ({
         active: {
@@ -109,12 +113,17 @@ class App extends React.Component {
     socket.emit('submitClue', { name: this.state.name, color: this.state.color, clue });
   }
 
+  handleOntoClueChecking = () => {
+    socket.emit('ontoCheckingClues');
+  }
+
   onFinishChecking = () => {
     socket.emit('finishCheckingClues');
   }
   
   updateCorrect = (status) => {
-    socket.emit('updateCorrect', { status })
+    socket.emit('updateCorrect', { status });
+    this.handleStartRound();
   }
 
   render() {
@@ -132,11 +141,11 @@ class App extends React.Component {
               (active.status ?
                 <Waiting /> :
                 (!allCluesGiven ?
-                  <ClueGiver active={this.state.active} onSubmit={this.onClueSubmit}/> :
+                  <ClueGiver active={this.state.active} onSubmit={this.onClueSubmit} onProceed={this.handleOntoClueChecking}/> :
                   <CheckClues socket={socket} clues={this.state.clues} onRemove={this.removeClue} onFinish={this.onFinishChecking}/>
                 )
               ) :
-              <Guessing clues={this.state.clues} onNextRound={this.handleStartRound} onGuess={this.updateCorrect} />
+              <Guessing clues={this.state.clues} onGuess={this.updateCorrect} />
             )
           )}
           </main>

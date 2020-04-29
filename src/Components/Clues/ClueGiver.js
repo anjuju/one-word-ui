@@ -47,8 +47,10 @@ class ClueGiver extends React.Component {
           <div className="player-waiting">
             Please wait while the rest give their clues. <br/><br/>
             <div class="lds-circle"><div></div></div>
+            <button onClick={this.props.onProceed} className="clue-giver__proceed">Then check clues</button>
           </div>
         }
+        
       </div>
     );
   }

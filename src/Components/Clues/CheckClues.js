@@ -31,7 +31,8 @@ class CheckClues extends React.Component {
   render() {
     return (
       <div className="check-clues__container">
-        <div className="check-clues__cards">
+        Please remove any duplicate clues.
+        <div className="show-cards">
           {this.state.clues.map((clueBundle, i) => (
             <div key={clueBundle.player_name} className="check-clues__clue">
               <WordCard name={clueBundle.player_name} color={clueBundle.color} content={clueBundle.clue} />

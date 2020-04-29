@@ -1,12 +1,12 @@
 $main-bg-color: #404357;
-$secondary-color: #7d8da8;
-$red: #b01320;
-$hotPink: #c325db;
-$pink: #d674af;
-$orange: #db8f37;
-$yellow: #c9c30c;
-$green: #20bd0f;
-$teal: #0a7d5e;
+$secondary-color: #a7aabe;
+$red: #c91121;
+$hotPink: #bf25d3;
+$pink: #e65eaf;
+$orange: #e2612e;
+$yellow: #c98c09;
+$green: #1bad0a;
+$teal: #0a5c5f;
 $blue: #1679db;
 $purple: #6213d1;
 $black: #000000;
@@ -46,7 +46,7 @@ $color-map: (
 
 button {
   background-color: $secondary-color;
-  font-size: 1.5vw;
+  font-size: inherit;
   margin: 1vw;
   padding: 0.8vw;
   max-height: 4vw;
@@ -181,15 +181,16 @@ main {
 }
 
 .clue-giver__clue-submit {
-  width: 7vw;
-  height: 3vw;
+  width: 8vw;
+  height: 4vw;
   padding: 0.5vw;
+  font-size: 2vw;
 }
 
 .clue-giver__submitted {
   font-size: 3.5vw;
-  width: 9vw;
-  height: 5vw;
+  width: 10vw;
+  height: 6vw;
 }
 
 .active-player {
@@ -197,9 +198,8 @@ main {
 }
 
 /* Check Clues */
-.check-clues__cards {
-  display: grid;
-  grid-template-columns: 30vw 30vw;
+.check-clues__container {
+  margin-top: 2vw;
 }
 
 .check-clues__clue {
@@ -209,8 +209,12 @@ main {
 }
 
 .check-clues__remove-btn {
-  padding: 1vw;
+  padding: 0.5vw;
 }
+
+
+/* Guessing */
+
 
 
 /* Word Card */
@@ -221,7 +225,7 @@ main {
   background-color: #e2e3e9;
   border-radius: 30px;
   padding: 1.5vw;
-  margin: 2vw;
+  margin: 1.5vw;
   color: black;
 
   min-width: 15vw;
@@ -232,6 +236,12 @@ main {
   top: -0.9vw;
   font-size: 1.5vw;
 }
+
+.show-cards {
+  display: grid;
+  grid-template-columns: 30vw 30vw;
+}
+
 
 footer {
   position: absolute;
@@ -254,6 +264,10 @@ footer {
   .App__container {
     font-size: 3vw;
   }
+
+  button {
+    max-height: 6vw;
+  }
   
   .setup__instructions {
     max-width: 80vw;
@@ -270,6 +284,13 @@ footer {
     height: calc(15vw - (2 * 0.6vw));
   }
 
+  .word-card {
+    min-width: 20vw;
+  }
+
+  .show-cards {
+    grid-template-columns: 50vw;
+  }
 }
 
 
