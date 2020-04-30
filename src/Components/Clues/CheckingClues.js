@@ -11,7 +11,6 @@ class CheckingClues extends React.Component {
       clues: this.props.clues
     })
     this.props.socket.on('removingClues', data => {
-      console.log('removed clues - got new rows');
       this.setState({
         clues: data.clues
       })
@@ -19,13 +18,11 @@ class CheckingClues extends React.Component {
   }
 
   removeClue = (clueBundle, i) => {
-    // const newClues = [...this.state.clues];
-    // newClues.splice(i, 1);
-    // this.setState({
-    //   clues: newClues
-    // });
-    
     this.props.socket.emit('removeClue', { clue: clueBundle.clue });
+  }
+
+  onFinishChecking = () => {
+    this.props.socket.emit('finishCheckingClues');
   }
  
   render() {
@@ -40,7 +37,7 @@ class CheckingClues extends React.Component {
             </div>
           ))}
         </div>
-        <button className="check-clues__finish button--light" onClick={this.props.onFinish}>Finished</button>
+        <button className="check-clues__finish button--light" onClick={this.onFinishChecking}>Finished</button>
       </div>
     )
   }

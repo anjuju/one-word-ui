@@ -92,6 +92,10 @@ main {
   align-items: center;
 }
 
+footer{
+  height: 3vw;
+}
+
 /* Set Up */
 
 .setup__instructions {
@@ -142,10 +146,6 @@ main {
     opacity: 80%;
   }
 
-}
-
-.setup__submit {
-  margin-bottom: 3vw;
 }
 
 /* Waiting */
@@ -314,6 +314,11 @@ main {
 
   .show-cards {
     grid-template-columns: 50vw;
+  }
+
+  .outcomes__container {
+    width: 12vw;
+    font-size: 2.5vw;
   }
 }
 

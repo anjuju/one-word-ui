@@ -17,9 +17,7 @@ class App extends React.Component {
   state = {
     name: '',
     color: '',
-    completeSetup: false,
-    allCluesGiven: false,
-    readyToGuess: false,
+    status: 'setting_up',
     active: {
       status: false,
       activePlayer: 'angelica',
@@ -31,18 +29,13 @@ class App extends React.Component {
       { player_name: 'bob', color: 'pink', clue: 'testA'},
       { player_name: 'cathy', color: 'blue', clue: 'testinnnnggggC'},
       { player_name: 'dylan', color: 'purple', clue: 'testD'},
-      { player_name: 'elizabeth r', color: 'black', clue: 'testD'},
+      { player_name: 'elizabeth', color: 'black', clue: 'testD'},
       { player_name: 'fran', color: 'yellow', clue: 'testF'},
     ],
-    outcomes: {
-      correct: 0,
-      skip: 0,
-      wrong: 0,
-    },
   }
 
   componentDidMount() {
-    socket.on('startingRound', data => {
+    socket.on('proceedGivingClues', data => {
       const { activePlayer, activeColor, activeWord } = data;
       
       if (this.state.name === activePlayer) {
@@ -63,9 +56,7 @@ class App extends React.Component {
           activeColor,
           activeWord,
         },
-        completeSetup: true,
-        allCluesGiven: false,
-        readyToGuess: false,
+        status: 'giving_clues'
       }));
     });
 
@@ -79,26 +70,17 @@ class App extends React.Component {
       }));
     });
 
-    socket.on('checkClues', data => {
+    socket.on('proceedCheckingClues', data => {
       this.setState({
-        completeSetup: true,
-        allCluesGiven: true,
+        status: 'checking_clues',
         clues: data.clues
       });
     });
 
-    socket.on('sendingClues', data => {
+    socket.on('proceedGuessing', data => {
       this.setState({
-        completeSetup: true,
-        readyToGuess: true,
+        status: 'guessing',
         clues: data.clues
-      });
-    });
-
-    socket.on('outcomes', data => {
-      const { outcomes } = data;
-      this.setState({
-        outcomes
       });
     });
   }
@@ -116,21 +98,8 @@ class App extends React.Component {
     socket.emit('submitClue', { name: this.state.name, color: this.state.color, clue });
   }
 
-  handleOntoClueChecking = () => {
-    socket.emit('ontoCheckingClues');
-  }
-
-  onFinishChecking = () => {
-    socket.emit('finishCheckingClues');
-  }
-  
-  updateCorrect = (outcome) => {
-    socket.emit('updateCorrect', { outcome });
-    this.handleStartRound();
-  }
-
   render() {
-    const { completeSetup, active, allCluesGiven, readyToGuess, outcomes } = this.state;
+    const { status, active, clues } = this.state;
         
     return (
         <div className="App__container">
@@ -138,17 +107,17 @@ class App extends React.Component {
             <h1>One Word</h1>
           </header>
           <main>
-          {(!completeSetup ?
-            <SetUp socket={socket} onSubmitName={this.handleSubmitName} onStartJoinGame={this.handleStartOrJoinGame}  /> :    
-            (!readyToGuess ?
+          {(status === "setting_up" ?
+            <SetUp socket={socket} onSubmitName={this.handleSubmitName} /> :
+            (status !== "guessing" ?
               (active.status ?
-                <Waiting /> :
-                (!allCluesGiven ?
-                  <GivingClues socket={socket} active={this.state.active} getNewWord={this.handleGetNewWord} onSubmit={this.onClueSubmit} onProceed={this.handleOntoClueChecking}/> :
-                  <CheckingClues socket={socket} clues={this.state.clues} onRemove={this.removeClue} onFinish={this.onFinishChecking}/>
+                <Waiting/> :
+                (status === "giving_clues" ?
+                  <GivingClues socket={socket} active={active} onSubmit={this.onClueSubmit} /> :
+                  <CheckingClues socket={socket} clues={clues} />
                 )
               ) :
-              <Guessing clues={this.state.clues} onGuess={this.updateCorrect} outcomes={outcomes} />
+              <Guessing socket={socket} clues={clues} />
             )
           )}
           </main>

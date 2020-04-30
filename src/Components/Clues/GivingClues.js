@@ -40,6 +40,10 @@ class GivingClues extends React.Component {
   handleGetNewWord = () => {
     this.props.socket.emit('getNewWord');
   }
+
+  handleOntoClueChecking = () => {
+    this.props.socket.emit('ontoCheckingClues');
+  }
   
   render() {
     const { activePlayer, activeColor, activeWord } = this.props.active;
@@ -58,7 +62,7 @@ class GivingClues extends React.Component {
           (<div className="player-waiting">
             Please wait while the rest give their clues. <br/>
             <div className="lds-circle"><div></div></div><br/>
-            <button onClick={this.props.onProceed} className="clue-giver__btn clue-giver__proceed">Then check clues</button>
+            <button onClick={this.handleOntoClueChecking} className="clue-giver__btn clue-giver__proceed">Then check clues</button>
           </div>) :
           (this.state.showGetNewWord &&
             <button className="clue-giver__btn clue-giver__new-word" onClick={this.handleGetNewWord}>This word is weird, gimme another</button>)
