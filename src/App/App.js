@@ -6,7 +6,6 @@ import Waiting from '../Components/Guess/Waiting';
 import GivingClues from '../Components/Clues/GivingClues';
 import CheckingClues from '../Components/Clues/CheckingClues';
 import Guessing from '../Components/Guess/Guessing';
-import NumberCorrect from '../Components/Cards/NumberCorrect';
 
 import socketIOClient from 'socket.io-client';
 const socketEndPoint = 'http://localhost:8080/';
@@ -18,7 +17,7 @@ class App extends React.Component {
   state = {
     name: '',
     color: '',
-    completeSetup: false,
+    completeSetup: true,
     gameStarted: false,
     allCluesGiven: false,
     readyToGuess: false,
@@ -36,7 +35,7 @@ class App extends React.Component {
       { player_name: 'elizabeth r', color: 'black', clue: 'testD'},
       { player_name: 'fran', color: 'yellow', clue: 'testF'},
     ],
-    numberCorrect: {
+    outcomes: {
       correct: 0,
       skip: 0,
       wrong: 0,
@@ -76,7 +75,7 @@ class App extends React.Component {
       this.setState({
         gameStarted: true
       });
-    })
+    });
 
     socket.on('sendingWord', data => {
       const { activeWord } = data;     
@@ -104,21 +103,19 @@ class App extends React.Component {
       });
     });
 
-    socket.on('numberCorrect', data => {
-      const { numberCorrect } = data;
+    socket.on('outcomes', data => {
+      const { outcomes } = data;
       this.setState({
-        numberCorrect
+        outcomes
       });
     });
   }
 
-  handleSubmitName = async (name, color) => {
+  handleSubmitName = (name, color, element) => {
     if (name !== '' && color !== '') {
-      // const response = await fetch(`${api}/player`, {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ name, color })
-      // });
+      
+      element.target.disabled = true;
+    
       socket.emit('submitSetUp', { name, color });
 
       this.setState({
@@ -136,10 +133,6 @@ class App extends React.Component {
 
   handleJoinGame = () => {
     socket.emit('joinGame');
-  }
-
-  handleGetNewWord = () => {
-    socket.emit('getNewWord');
   }
 
   onClueSubmit = (clue) => {
@@ -160,7 +153,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { completeSetup, active, allCluesGiven, readyToGuess, numberCorrect } = this.state;
+    const { completeSetup, active, allCluesGiven, readyToGuess, outcomes } = this.state;
         
     return (
         <div className="App__container">
@@ -174,16 +167,15 @@ class App extends React.Component {
               (active.status ?
                 <Waiting /> :
                 (!allCluesGiven ?
-                  <GivingClues active={this.state.active} getNewWord={this.handleGetNewWord} onSubmit={this.onClueSubmit} onProceed={this.handleOntoClueChecking}/> :
+                  <GivingClues socket={socket} active={this.state.active} getNewWord={this.handleGetNewWord} onSubmit={this.onClueSubmit} onProceed={this.handleOntoClueChecking}/> :
                   <CheckingClues socket={socket} clues={this.state.clues} onRemove={this.removeClue} onFinish={this.onFinishChecking}/>
                 )
               ) :
-              <Guessing clues={this.state.clues} onGuess={this.updateCorrect} />
+              <Guessing clues={this.state.clues} onGuess={this.updateCorrect} outcomes={outcomes} />
             )
           )}
           </main>
           <footer>
-            {readyToGuess && <NumberCorrect numberCorrect={numberCorrect} />}
           </footer>
         </div>
     );

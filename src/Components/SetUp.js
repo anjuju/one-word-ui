@@ -69,13 +69,13 @@ class SetUp extends React.Component {
               <input id={`choose-color-${colors[9]}`} type="radio" name="color" className="setup_color__radio" /><label htmlFor={`choose-color-${colors[9]}`}onClick={this.onColorSelection} className={`setup__color setup__color--${colors[9]}`}></label>
             </div>
           </div>
-          <button className="setup__submit" onClick={()=>this.props.onSubmitName(this.state.name, this.state.color)}>Submit</button>
+          <button className="setup__submit" onClick={(element)=>this.props.onSubmitName(this.state.name, this.state.color, element)}>Submit</button>
         </div>
         {this.props.gameStarted ?
-        <button className="setup__start-game__button" onClick={this.props.onJoinGame}>Join Game</button> :
+        <button className="setup__start-game__button button--light" onClick={this.props.onJoinGame}>Join Game</button> :
         (<div className="setup__start-game">
           When all of the players are ready, press: 
-          <button className="setup__start-game__button" onClick={this.props.onStartGame}>Start Game</button>
+          <button className="setup__start-game__button button--light" onClick={this.props.onStartGame}>Start Game</button>
         </div>)
         }
       </section>

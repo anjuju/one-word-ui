@@ -6,10 +6,16 @@ class GivingClues extends React.Component {
   
   state = {
     clue: '',
-    submitted: false
+    submitted: false,
+    showGetNewWord: true
   }
 
   componentDidMount() {
+    this.props.socket.on('removeGetNewWord', () => {
+      this.setState({
+        showGetNewWord: false
+      });
+    });
   }
 
   handleChange = (e) => {
@@ -18,9 +24,10 @@ class GivingClues extends React.Component {
     });
   }
 
-  submitClue = () => {
+  submitClue = (e) => {
     const { clue } = this.state;
     if (clue !== '' && !clue.includes(' ')) {
+      e.target.disabled = true;
       this.setState({
         submitted: true
       });
@@ -28,6 +35,10 @@ class GivingClues extends React.Component {
     } else {
       alert('Please enter a one-word clue');
     }
+  }
+
+  handleGetNewWord = () => {
+    this.props.socket.emit('getNewWord');
   }
   
   render() {
@@ -41,20 +52,17 @@ class GivingClues extends React.Component {
         <div className="clue-giver__clue">
           Clue: 
           <input type="text" onChange={this.handleChange}/>
-          {!this.state.submitted ? 
-          <button className="clue-giver__clue-submit" onClick={this.submitClue}>Submit</button> :
-          <div className="clue-giver__submitted">&#10004;</div>
-          }
+          <button className="clue-giver__clue-submit button--light" onClick={this.submitClue}>Submit</button>
         </div>
         {this.state.submitted ?
           (<div className="player-waiting">
             Please wait while the rest give their clues. <br/>
-            <div class="lds-circle"><div></div></div><br/>
+            <div className="lds-circle"><div></div></div><br/>
             <button onClick={this.props.onProceed} className="clue-giver__btn clue-giver__proceed">Then check clues</button>
           </div>) :
-          <button className="clue-giver__btn clue-giver__new-word" onClick={this.props.getNewWord}>This word is weird, gimme another</button>
+          (this.state.showGetNewWord &&
+            <button className="clue-giver__btn clue-giver__new-word" onClick={this.handleGetNewWord}>This word is weird, gimme another</button>)
         }
-        
       </div>
     );
   }

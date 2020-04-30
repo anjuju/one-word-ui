@@ -40,7 +40,7 @@ class CheckingClues extends React.Component {
             </div>
           ))}
         </div>
-        <button className="check-clues__finish" onClick={this.props.onFinish}>Finished</button>
+        <button className="check-clues__finish button--light" onClick={this.props.onFinish}>Finished</button>
       </div>
     )
   }

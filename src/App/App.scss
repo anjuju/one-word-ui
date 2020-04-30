@@ -45,7 +45,7 @@ $color-map: (
 }
 
 button {
-  background-color: $secondary-color;
+  background-color: $main-bg-color;
   font-size: inherit;
   margin: 1vw;
   padding: 0.8vw;
@@ -59,6 +59,14 @@ button {
   &:hover {
     opacity: 70%;
   }
+
+  &:disabled {
+    opacity: 50%;
+  }
+}
+
+.button--light {
+  background-color: $secondary-color;
 }
 
 input {
@@ -138,7 +146,6 @@ main {
 
 .setup__submit {
   margin-bottom: 3vw;
-  background-color: $main-bg-color;
 }
 
 /* Waiting */
@@ -191,7 +198,6 @@ main {
 
 .clue-giver__btn {
   font-size: 1.5vw;
-  background-color: $main-bg-color;
 }
 
 .clue-giver__new-word {
@@ -240,7 +246,15 @@ main {
 
 /* Guessing */
 
+.outcomes__container {
+  border: 5px double white;
+  border-radius: 10px;
+  padding: 1vw;
+  text-align: right;
 
+  width: 10vw;
+  margin: 5vw auto;
+}
 
 /* Word Card */
 .word-card {
@@ -267,22 +281,7 @@ main {
   grid-template-columns: 30vw 30vw;
 }
 
-
-footer {
-  position: absolute;
-  top: 10vw;
-  left: 3vw;
-
-  .number-correct__container {
-    border: 5px double white;
-    border-radius: 10px;
-    padding: 1vw;
-    text-align: right;
-  }
-}
-
-
-  
+ 
 
 @media only screen and (max-width: 1000px) {
 
