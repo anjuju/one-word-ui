@@ -45,6 +45,7 @@ class App extends React.Component {
   componentDidMount() {
     socket.on('startingRound', data => {
       const { activePlayer, activeColor, activeWord } = data;
+      
       if (this.state.name === activePlayer) {
         //console.log('setting active true');
         this.setState({
@@ -55,6 +56,7 @@ class App extends React.Component {
           active: { status: false }
         });
       }
+
       this.setState( prevState => ({
         active: {
           ...prevState.active,
@@ -65,6 +67,15 @@ class App extends React.Component {
         completeSetup: true,
         allCluesGiven: false,
         readyToGuess: false,
+      }));
+    });
+    socket.on('sendingWord', data => {
+      const { activeWord } = data;     
+      this.setState(prevState => ({
+        active: {
+          ...prevState.active,
+          activeWord
+        }
       }));
     });
     socket.on('checkClues', data => {
@@ -109,6 +120,10 @@ class App extends React.Component {
     socket.emit('startRound');
   }
 
+  handleGetNewWord = () => {
+    socket.emit('getNewWord');
+  }
+
   onClueSubmit = (clue) => {
     socket.emit('submitClue', { name: this.state.name, color: this.state.color, clue });
   }
@@ -141,7 +156,7 @@ class App extends React.Component {
               (active.status ?
                 <Waiting /> :
                 (!allCluesGiven ?
-                  <ClueGiver active={this.state.active} onSubmit={this.onClueSubmit} onProceed={this.handleOntoClueChecking}/> :
+                  <ClueGiver active={this.state.active} getNewWord={this.handleGetNewWord} onSubmit={this.onClueSubmit} onProceed={this.handleOntoClueChecking}/> :
                   <CheckClues socket={socket} clues={this.state.clues} onRemove={this.removeClue} onFinish={this.onFinishChecking}/>
                 )
               ) :

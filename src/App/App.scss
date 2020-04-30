@@ -51,16 +51,24 @@ button {
   padding: 0.8vw;
   max-height: 4vw;
 
-  border-radius: 5px;
+  border-radius: 10px;
   color: white;
 
   cursor: pointer;
+
+  &:hover {
+    opacity: 70%;
+  }
 }
 
 input {
   font-size: inherit;
   margin: 1vw;
-  border-radius: 5px;
+  border-radius: 10px;
+
+  &:hover {
+    opacity: 70%;
+  }
 }
 
 header {
@@ -80,7 +88,7 @@ main {
 
 .setup__instructions {
   border: 5px double white;
-  border-radius: 5px;
+  border-radius: 30px;
   padding: 2vw;
   max-width: 60vw;
   margin: 5vw auto;
@@ -113,7 +121,7 @@ main {
   width: 10vw;
   height: 10vw;
   margin: 1vw;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
 
   @each $color, $color-var in $color-map {
@@ -180,6 +188,17 @@ main {
   align-items: center;
 }
 
+.clue-giver__btn {
+  font-size: 1.5vw;
+  background-color: $main-bg-color;
+}
+
+.clue-giver__new-word {
+  position: absolute;
+  bottom: 2vw;
+  left: 37vw;
+}
+
 .clue-giver__clue-submit {
   width: 8vw;
   height: 4vw;
@@ -191,6 +210,11 @@ main {
   font-size: 3.5vw;
   width: 10vw;
   height: 6vw;
+}
+
+.clue-giver__proceed {
+  font-size: 1.5vw;
+  opacity: 80%;
 }
 
 .active-player {
@@ -250,7 +274,7 @@ footer {
 
   .number-correct__container {
     border: 5px double white;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 1vw;
     text-align: right;
   }
@@ -262,7 +286,7 @@ footer {
 @media only screen and (max-width: 1000px) {
 
   .App__container {
-    font-size: 3vw;
+    font-size: 20px;
   }
 
   button {

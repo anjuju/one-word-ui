@@ -9,6 +9,9 @@ class ClueGiver extends React.Component {
     submitted: false
   }
 
+  componentDidMount() {
+  }
+
   handleChange = (e) => {
     this.setState({
       clue: e.target.value
@@ -43,12 +46,13 @@ class ClueGiver extends React.Component {
           <div className="clue-giver__submitted">&#10004;</div>
           }
         </div>
-        {this.state.submitted &&
-          <div className="player-waiting">
-            Please wait while the rest give their clues. <br/><br/>
-            <div class="lds-circle"><div></div></div>
-            <button onClick={this.props.onProceed} className="clue-giver__proceed">Then check clues</button>
-          </div>
+        {this.state.submitted ?
+          (<div className="player-waiting">
+            Please wait while the rest give their clues. <br/>
+            <div class="lds-circle"><div></div></div><br/>
+            <button onClick={this.props.onProceed} className="clue-giver__btn clue-giver__proceed">Then check clues</button>
+          </div>) :
+          <button className="clue-giver__btn clue-giver__new-word" onClick={this.props.getNewWord}>This word is weird, gimme another</button>
         }
         
       </div>

@@ -38,7 +38,7 @@ class SetUp extends React.Component {
   }
 
   onRemoveColor = (color) => {
-    if (colors.includes(color)) {
+    if (colors.includes(color) && document.getElementById(`choose-color-${color}`)) {
       document.getElementById(`choose-color-${color}`).disabled = true;
       document.getElementsByClassName(`setup__color setup__color--${color}`)[0].style.opacity = '0%';
     } else {
