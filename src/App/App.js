@@ -17,8 +17,7 @@ class App extends React.Component {
   state = {
     name: '',
     color: '',
-    completeSetup: true,
-    gameStarted: false,
+    completeSetup: false,
     allCluesGiven: false,
     readyToGuess: false,
     active: {
@@ -65,16 +64,9 @@ class App extends React.Component {
           activeWord,
         },
         completeSetup: true,
-        gameStarted: true,
         allCluesGiven: false,
         readyToGuess: false,
       }));
-    });
-
-    socket.on('gameStarted', () => {
-      this.setState({
-        gameStarted: true
-      });
     });
 
     socket.on('sendingWord', data => {
@@ -111,28 +103,13 @@ class App extends React.Component {
     });
   }
 
-  handleSubmitName = (name, color, element) => {
-    if (name !== '' && color !== '') {
-      
-      element.target.disabled = true;
-    
+  handleSubmitName = (name, color) => {
       socket.emit('submitSetUp', { name, color });
 
       this.setState({
         name,
         color
       });
-    } else {
-      alert('Please enter your name and choose a color.');
-    }
-  }
-  
-  handleStartRound = () => {
-    socket.emit('startRound');
-  }
-
-  handleJoinGame = () => {
-    socket.emit('joinGame');
   }
 
   onClueSubmit = (clue) => {
@@ -162,7 +139,7 @@ class App extends React.Component {
           </header>
           <main>
           {(!completeSetup ?
-            <SetUp socket={socket} gameStarted={this.state.gameStarted} onJoinGame={this.handleJoinGame} onSubmitName={this.handleSubmitName} onStartGame={this.handleStartRound}/> :    
+            <SetUp socket={socket} onSubmitName={this.handleSubmitName} onStartJoinGame={this.handleStartOrJoinGame}  /> :    
             (!readyToGuess ?
               (active.status ?
                 <Waiting /> :

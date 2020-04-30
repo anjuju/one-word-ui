@@ -9,13 +9,22 @@ const colors = ['red', 'hotPink', 'pink', 'orange', 'yellow', 'green', 'teal', '
 class SetUp extends React.Component {
   state = {
     name: '',
-    color: ''
+    color: '',
+    submitted: false,
+    gameStarted: false
   }
 
   componentDidMount() {
-    this.props.socket.on('removeColors', data => {
+    const { socket } = this.props;
+    
+    socket.on('removeColors', data => {
       //console.log('removing color', data.color);
       this.onRemoveColor(data.color);
+    });
+    socket.on('gameStarted', () => {
+      this.setState({
+        gameStarted: true
+      });
     });
   }
 
@@ -41,7 +50,27 @@ class SetUp extends React.Component {
     }
   }
 
+  submitName = () => {
+    const { name, color } = this.state;
+    
+    if (name !== '' && color !== '') {
+  
+    this.props.onSubmitName(this.state.name, this.state.color);
+    
+    this.setState({
+      submitted: true
+    });
+    } else {
+      alert('Please enter your name and choose a color.');
+    }
+  }
+
+  handleStartOrJoinGame = (enter) => {
+    this.props.socket.emit(enter);
+  }
+
   render() {
+    const { submitted, gameStarted } = this.state;
     return (
       <section className="setup__container">
         <section className="setup__instructions">
@@ -69,15 +98,18 @@ class SetUp extends React.Component {
               <input id={`choose-color-${colors[9]}`} type="radio" name="color" className="setup_color__radio" /><label htmlFor={`choose-color-${colors[9]}`}onClick={this.onColorSelection} className={`setup__color setup__color--${colors[9]}`}></label>
             </div>
           </div>
-          <button className="setup__submit" onClick={(element)=>this.props.onSubmitName(this.state.name, this.state.color, element)}>Submit</button>
+          {submitted ?
+            (gameStarted ?
+              <button className="setup__start-game__button button--light" onClick={()=>this.handleStartOrJoinGame('joinGame')}>Join Game</button> :
+              (<div className="setup__start-game">
+                When all of the players are ready, press: 
+                <button className="setup__start-game__button button--light" onClick={()=>this.handleStartOrJoinGame('startRound')}>Start Game</button>
+              </div>)
+            ) :
+            <button className="setup__submit" onClick={this.submitName}>Submit</button>
+          }
         </div>
-        {this.props.gameStarted ?
-        <button className="setup__start-game__button button--light" onClick={this.props.onJoinGame}>Join Game</button> :
-        (<div className="setup__start-game">
-          When all of the players are ready, press: 
-          <button className="setup__start-game__button button--light" onClick={this.props.onStartGame}>Start Game</button>
-        </div>)
-        }
+        
       </section>
     )
   }
