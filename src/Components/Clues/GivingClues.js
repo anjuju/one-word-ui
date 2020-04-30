@@ -2,7 +2,7 @@ import React from 'react';
 import WordCard from '../Cards/WordCard';
 
 
-class ClueGiver extends React.Component {
+class GivingClues extends React.Component {
   
   state = {
     clue: '',
@@ -60,4 +60,4 @@ class ClueGiver extends React.Component {
   }
 }
 
-export default ClueGiver;
+export default GivingClues;

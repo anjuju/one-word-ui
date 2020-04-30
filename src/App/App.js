@@ -3,8 +3,8 @@ import './App.scss';
 // import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import SetUp from '../Components/SetUp';
 import Waiting from '../Components/Guess/Waiting';
-import ClueGiver from '../Components/Clues/ClueGiver';
-import CheckClues from '../Components/Clues/CheckClues';
+import GivingClues from '../Components/Clues/GivingClues';
+import CheckingClues from '../Components/Clues/CheckingClues';
 import Guessing from '../Components/Guess/Guessing';
 import NumberCorrect from '../Components/Cards/NumberCorrect';
 
@@ -19,18 +19,14 @@ class App extends React.Component {
     name: '',
     color: '',
     completeSetup: false,
+    gameStarted: false,
+    allCluesGiven: false,
+    readyToGuess: false,
     active: {
       status: false,
       activePlayer: 'angelica',
       activeColor: 'teal',
       activeWord: 'test'
-    },
-    allCluesGiven: false,
-    readyToGuess: false,
-    numberCorrect: {
-      correct: 0,
-      skip: 0,
-      wrong: 0,
     },
     clues: [
       { player_name: 'angelica', color: 'red', clue: 'testA'},
@@ -39,7 +35,12 @@ class App extends React.Component {
       { player_name: 'dylan', color: 'purple', clue: 'testD'},
       { player_name: 'elizabeth r', color: 'black', clue: 'testD'},
       { player_name: 'fran', color: 'yellow', clue: 'testF'},
-    ]
+    ],
+    numberCorrect: {
+      correct: 0,
+      skip: 0,
+      wrong: 0,
+    },
   }
 
   componentDidMount() {
@@ -65,10 +66,18 @@ class App extends React.Component {
           activeWord,
         },
         completeSetup: true,
+        gameStarted: true,
         allCluesGiven: false,
         readyToGuess: false,
       }));
     });
+
+    socket.on('gameStarted', () => {
+      this.setState({
+        gameStarted: true
+      });
+    })
+
     socket.on('sendingWord', data => {
       const { activeWord } = data;     
       this.setState(prevState => ({
@@ -78,18 +87,23 @@ class App extends React.Component {
         }
       }));
     });
+
     socket.on('checkClues', data => {
       this.setState({
+        completeSetup: true,
         allCluesGiven: true,
         clues: data.clues
       });
     });
+
     socket.on('sendingClues', data => {
       this.setState({
-        clues: data.clues,
-        readyToGuess: true
+        completeSetup: true,
+        readyToGuess: true,
+        clues: data.clues
       });
     });
+
     socket.on('numberCorrect', data => {
       const { numberCorrect } = data;
       this.setState({
@@ -120,6 +134,10 @@ class App extends React.Component {
     socket.emit('startRound');
   }
 
+  handleJoinGame = () => {
+    socket.emit('joinGame');
+  }
+
   handleGetNewWord = () => {
     socket.emit('getNewWord');
   }
@@ -136,8 +154,8 @@ class App extends React.Component {
     socket.emit('finishCheckingClues');
   }
   
-  updateCorrect = (status) => {
-    socket.emit('updateCorrect', { status });
+  updateCorrect = (outcome) => {
+    socket.emit('updateCorrect', { outcome });
     this.handleStartRound();
   }
 
@@ -151,13 +169,13 @@ class App extends React.Component {
           </header>
           <main>
           {(!completeSetup ?
-            <SetUp socket={socket} onSubmitName={this.handleSubmitName} onStartGame={this.handleStartRound}/> :    
+            <SetUp socket={socket} gameStarted={this.state.gameStarted} onJoinGame={this.handleJoinGame} onSubmitName={this.handleSubmitName} onStartGame={this.handleStartRound}/> :    
             (!readyToGuess ?
               (active.status ?
                 <Waiting /> :
                 (!allCluesGiven ?
-                  <ClueGiver active={this.state.active} getNewWord={this.handleGetNewWord} onSubmit={this.onClueSubmit} onProceed={this.handleOntoClueChecking}/> :
-                  <CheckClues socket={socket} clues={this.state.clues} onRemove={this.removeClue} onFinish={this.onFinishChecking}/>
+                  <GivingClues active={this.state.active} getNewWord={this.handleGetNewWord} onSubmit={this.onClueSubmit} onProceed={this.handleOntoClueChecking}/> :
+                  <CheckingClues socket={socket} clues={this.state.clues} onRemove={this.removeClue} onFinish={this.onFinishChecking}/>
                 )
               ) :
               <Guessing clues={this.state.clues} onGuess={this.updateCorrect} />

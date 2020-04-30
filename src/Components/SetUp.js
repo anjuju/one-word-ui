@@ -9,16 +9,11 @@ const colors = ['red', 'hotPink', 'pink', 'orange', 'yellow', 'green', 'teal', '
 class SetUp extends React.Component {
   state = {
     name: '',
-    color: '',
-    removeColors: []
+    color: ''
   }
 
   componentDidMount() {
     this.props.socket.on('removeColors', data => {
-      let newRemoveColors = [...this.state.removeColors, data.color];
-      this.setState({
-        removeColors: newRemoveColors
-      });
       //console.log('removing color', data.color);
       this.onRemoveColor(data.color);
     });
@@ -42,7 +37,7 @@ class SetUp extends React.Component {
       document.getElementById(`choose-color-${color}`).disabled = true;
       document.getElementsByClassName(`setup__color setup__color--${color}`)[0].style.opacity = '0%';
     } else {
-      console.log(color + 'not found');
+      console.log(color + ' not found');
     }
   }
 
@@ -76,10 +71,13 @@ class SetUp extends React.Component {
           </div>
           <button className="setup__submit" onClick={()=>this.props.onSubmitName(this.state.name, this.state.color)}>Submit</button>
         </div>
-        <div className="setup__start-game">
+        {this.props.gameStarted ?
+        <button className="setup__start-game__button" onClick={this.props.onJoinGame}>Join Game</button> :
+        (<div className="setup__start-game">
           When all of the players are ready, press: 
           <button className="setup__start-game__button" onClick={this.props.onStartGame}>Start Game</button>
-        </div>
+        </div>)
+        }
       </section>
     )
   }

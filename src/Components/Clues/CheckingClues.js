@@ -1,7 +1,7 @@
 import React from 'react';
 import WordCard from '../Cards/WordCard';
 
-class CheckClues extends React.Component {
+class CheckingClues extends React.Component {
   state = {
     clues: []
   }
@@ -46,4 +46,4 @@ class CheckClues extends React.Component {
   }
 }
 
-export default CheckClues;
+export default CheckingClues;
