@@ -32,6 +32,11 @@ class App extends React.Component {
       { player_name: 'elizabeth', color: 'black', clue: 'testD'},
       { player_name: 'fran', color: 'yellow', clue: 'testF'},
     ],
+    outcomes: {
+      correct: 0,
+      skip: 0,
+      wrong: 0,
+    }
   }
 
   componentDidMount() {
@@ -60,7 +65,7 @@ class App extends React.Component {
       }));
     });
 
-    socket.on('sendingWord', data => {
+    socket.on('sendingNewWord', data => {
       const { activeWord } = data;     
       this.setState(prevState => ({
         active: {
@@ -83,6 +88,13 @@ class App extends React.Component {
         clues: data.clues
       });
     });
+
+    socket.on('outcomes', data => {
+      const { outcomes } = data;
+      this.setState({
+        outcomes
+      });
+    });
   }
 
   handleSubmitName = (name, color) => {
@@ -98,8 +110,13 @@ class App extends React.Component {
     socket.emit('submitClue', { name: this.state.name, color: this.state.color, clue });
   }
 
+  updateOutcomes = (outcome) => {
+    socket.emit('updateOutcomes', { outcome });
+    socket.emit('startRound');
+  }
+
   render() {
-    const { status, active, clues } = this.state;
+    const { status, active, clues, outcomes } = this.state;
         
     return (
         <div className="App__container">
@@ -117,7 +134,7 @@ class App extends React.Component {
                   <CheckingClues socket={socket} clues={clues} />
                 )
               ) :
-              <Guessing socket={socket} clues={clues} />
+              <Guessing socket={socket} clues={clues} outcomes={outcomes} updateOutcomes={this.updateOutcomes} />
             )
           )}
           </main>
