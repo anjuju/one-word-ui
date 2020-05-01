@@ -116,7 +116,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { status, active, clues, outcomes } = this.state;
+    const { status, active, clues, outcomes, name } = this.state;
         
     return (
         <div className="App__container">
@@ -124,17 +124,19 @@ class App extends React.Component {
             <h1>One Word</h1>
           </header>
           <main>
-          {(status === "setting_up" ?
+          {(status === "setting_up" || name === '' ?
             <SetUp socket={socket} onSubmitName={this.handleSubmitName} /> :
-            (status !== "guessing" ?
-              (active.status ?
-                <Waiting/> :
-                (status === "giving_clues" ?
-                  <GivingClues socket={socket} active={active} onSubmit={this.onClueSubmit} /> :
-                  <CheckingClues socket={socket} clues={clues} />
-                )
-              ) :
-              <Guessing socket={socket} clues={clues} outcomes={outcomes} updateOutcomes={this.updateOutcomes} />
+            (name &&
+              (status !== "guessing" ?
+                (active.status ?
+                  <Waiting/> :
+                  (status === "giving_clues" ?
+                    <GivingClues socket={socket} active={active} onSubmit={this.onClueSubmit} /> :
+                    <CheckingClues socket={socket} clues={clues} />
+                  )
+                ) :
+                <Guessing clues={clues} outcomes={outcomes} updateOutcomes={this.updateOutcomes} />
+              )
             )
           )}
           </main>
