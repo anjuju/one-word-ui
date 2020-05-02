@@ -8,7 +8,7 @@ import CheckingClues from '../Components/Clues/CheckingClues';
 import Guessing from '../Components/Guess/Guessing';
 
 import socketIOClient from 'socket.io-client';
-const socketEndPoint = 'http://localhost:8080/';
+const socketEndPoint = 'http://18.224.27.206:8080/';
 const socket = socketIOClient.connect(socketEndPoint); 
 
 // const api = process.env.REACT_APP_ONE_WORD_API;
