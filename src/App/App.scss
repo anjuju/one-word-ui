@@ -309,6 +309,10 @@ footer{
     height: calc(15vw - (2 * 0.6vw));
   }
 
+  .clue-giver__proceed {
+    font-size: inherit;
+  }
+
   .word-card {
     min-width: 20vw;
     border-radius: 15px;
@@ -329,6 +333,14 @@ footer{
 }
 
 @media only screen and (max-width: 500px) {
+
+  button {
+    background-color: $secondary-color;
+  }
+
+  .word-card {
+    min-width: 40vw;
+  }
 
   .show-cards {
     grid-template-columns: 80vw;
