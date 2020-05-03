@@ -314,6 +314,10 @@ footer{
     border-radius: 15px;
   }
 
+  .show-cards {
+    grid-template-columns: 35vw 35vw;
+  }
+
   .outcomes__container {
     width: 100px;
   }

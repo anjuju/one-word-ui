@@ -95,6 +95,12 @@ class App extends React.Component {
         outcomes
       });
     });
+
+    socket.on('restart', () => {
+      this.setState({
+        status: "setting_up"
+      });
+    });
   }
 
   handleSubmitName = (name, color) => {
