@@ -284,7 +284,7 @@ footer{
 
  
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1024px) {
 
   .App__container {
     font-size: 20px;
@@ -292,6 +292,7 @@ footer{
   
   button {
     max-height: 10vw;
+    background-color: $secondary-color;
   }
 
   .setup__instructions {
@@ -307,6 +308,10 @@ footer{
     border: 0.6vw solid white;
     width: calc(15vw - (2 * 0.6vw));
     height: calc(15vw - (2 * 0.6vw));
+  }
+
+  .clue-giver__btn {
+    font-size: inherit;
   }
 
   .clue-giver__proceed {
@@ -334,16 +339,19 @@ footer{
 
 @media only screen and (max-width: 500px) {
 
-  button {
-    background-color: $secondary-color;
-  }
-
   .word-card {
     min-width: 40vw;
   }
 
   .show-cards {
     grid-template-columns: 80vw;
+  }
+
+  .clue-giver__new-word {
+    bottom: 3vh;
+    left: 37vw;
+    font-size: 16px;
+    height: 6vh;
   }
 
 }
