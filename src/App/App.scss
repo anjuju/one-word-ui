@@ -73,6 +73,7 @@ input {
   font-size: inherit;
   margin: 1vw;
   border-radius: 10px;
+  width: 50%;
 
   &:hover {
     opacity: 0.7;
@@ -93,7 +94,9 @@ main {
 }
 
 footer{
-  height: 3vw;
+  position: fixed;
+  bottom: 1vh;
+  left: 2vw;
 }
 
 /* Set Up */
@@ -187,13 +190,14 @@ footer{
 /* Clue Giver */
 
 .clue-giver__component {
-  margin-top: 2vw;
+  margin-top: 5vw;
 }
 
 .clue-giver__clue {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 5vw auto;
 }
 
 .clue-giver__btn {
@@ -204,13 +208,6 @@ footer{
   position: absolute;
   bottom: 2vw;
   left: 37vw;
-}
-
-.clue-giver__clue-submit {
-  width: 8vw;
-  height: 4vw;
-  padding: 0.5vw;
-  font-size: 2vw;
 }
 
 .clue-giver__submitted {
@@ -245,6 +242,9 @@ footer{
 
 
 /* Guessing */
+.guessing__container {
+  padding-top: 5vw;
+}
 
 .outcomes__container {
   border: 5px double white;
@@ -273,12 +273,13 @@ footer{
 .word-card__name {
   position: relative;
   top: -0.9vw;
-  font-size: 1.5vw;
+  font-size: 0.7em;
 }
 
 .show-cards {
   display: grid;
   grid-template-columns: 30vw 30vw;
+  margin: 5vh;
 }
 
  
@@ -288,11 +289,11 @@ footer{
   .App__container {
     font-size: 20px;
   }
-
-  button {
-    max-height: 6vw;
-  }
   
+  button {
+    max-height: 10vw;
+  }
+
   .setup__instructions {
     max-width: 80vw;
   }
@@ -310,16 +311,25 @@ footer{
 
   .word-card {
     min-width: 20vw;
-  }
-
-  .show-cards {
-    grid-template-columns: 50vw;
+    border-radius: 15px;
   }
 
   .outcomes__container {
-    width: 12vw;
-    font-size: 2.5vw;
+    width: 100px;
   }
+
+  footer {
+    bottom: 3vh;
+    left: 5vw;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+
+  .show-cards {
+    grid-template-columns: 80vw;
+  }
+
 }
 
 

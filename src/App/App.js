@@ -115,6 +115,10 @@ class App extends React.Component {
     socket.emit('startRound');
   }
 
+  endGame = () => {
+    socket.emit('endGame');
+  }
+
   render() {
     const { status, active, clues, outcomes, name } = this.state;
         
@@ -135,12 +139,13 @@ class App extends React.Component {
                     <CheckingClues socket={socket} clues={clues} />
                   )
                 ) :
-                <Guessing clues={clues} outcomes={outcomes} updateOutcomes={this.updateOutcomes} />
+                <Guessing clues={clues} outcomes={outcomes} updateOutcomes={this.updateOutcomes} active={active} />
               )
             )
           )}
           </main>
           <footer>
+            {status !== "setting_up" && <button onClick={this.endGame} className="end-game">End Game</button>}
           </footer>
         </div>
     );

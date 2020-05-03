@@ -3,9 +3,10 @@ import WordCard from '../Cards/WordCard';
 import Outcomes from '../Cards/Outcomes';
 
 const Guessing = (props) => {
-  const { clues, updateOutcomes, outcomes } = props;
+  const { clues, updateOutcomes, outcomes, active } = props;
   return (
     <div className="guessing__container">
+      <span className={`active-player--${active.activeColor}`}>{active.activePlayer}</span>, please guess now (verbally)!
       <div className="show-cards">
         {clues.map(clueBundle => (
           <WordCard key={clueBundle.name} name={clueBundle.player_name} color={clueBundle.color} content={clueBundle.clue} />
