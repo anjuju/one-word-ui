@@ -4,6 +4,15 @@ import Outcomes from '../Cards/Outcomes';
 
 class Guessing extends React.Component {
   
+  componentDidMount() {
+    // show next round button after 5 min
+    setTimeout(() => {
+      const nextRoundBtn = document.getElementById('guessing_next-round-btn');
+      nextRoundBtn.style.display = 'block';
+      nextRoundBtn.style.margin = '1vw auto';
+    }, 300000);
+  }
+
   revealWord = (e) => {
     let confirmReveal = window.confirm('Are you sure you want to reveal the word?');
 
@@ -14,9 +23,12 @@ class Guessing extends React.Component {
   }
 
   updateOutcomes = (outcome) => {
-    const nextRoundBtn = document.getElementById('guessing_next-round-btn')
+    const nextRoundBtn = document.getElementById('guessing_next-round-btn');
     nextRoundBtn.style.display = 'block';
     nextRoundBtn.style.margin = '1vw auto';
+
+    const guessingBtns = document.getElementsByClassName('guessing__btn');
+    [...guessingBtns].forEach(btn => btn.disabled = true);
     
     this.props.socket.emit('updateOutcomes', { outcome });
   }
@@ -28,15 +40,15 @@ class Guessing extends React.Component {
   }
   
   render() {
-    const { clues, outcomes, stats, active } = this.props;
+    const { clues, outcomes, stats, active, showGuessingBtns } = this.props;
     return (
       <div className="guessing__container">
         <span className={`active-player--${active.activeColor}`}>{active.activePlayer}</span>, please guess now (verbally)!
-        <div className="guessing_btns">
+        {showGuessingBtns && (<div className="guessing_btns">
           <button onClick={()=>this.updateOutcomes('correct')} className="guessing__btn guessing__btn--correct">Correct</button>
           <button onClick={()=>this.updateOutcomes('skip')} className="guessing__btn guessing__btn--skip">Skip</button>
           <button onClick={()=>this.updateOutcomes('wrong')} className="guessing__btn guessing__btn--wrong">Wrong</button>
-        </div>
+        </div>)}
         <button onClick={this.nextRound} id="guessing_next-round-btn" className="button--light">Next Round</button>
         <div className="show-cards">
           {clues.map(clueBundle => (

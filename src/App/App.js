@@ -16,9 +16,9 @@ const socket = socketIOClient.connect(socketEndPoint);
 
 class App extends React.Component {
   state = {
-    name: 'aj',
+    name: '',
     color: '',
-    status: 'guessing',
+    status: 'setting_up',
     active: {
       status: false,
       activePlayer: 'angelica',
@@ -39,10 +39,7 @@ class App extends React.Component {
       wrong: 0,
     },
     stats: [
-      {round: 1, active_word: 'test', outcome: 'correct'},
-      {round: 2, active_word: 'really really really really really long word', outcome: 'skip'},
-      {round: 3, active_word: 'really really really long word', outcome: 'wrong'},
-      {round: 4, active_word: 'really really really long word', outcome: 'wrong'},
+      {round: 1, active_word: 'null', outcome: 'null'},
     ]
   }
 
@@ -162,7 +159,7 @@ class App extends React.Component {
                       <CheckingClues socket={socket} clues={clues} />
                     )
                   ) :
-                  <Guessing socket={socket} clues={clues} outcomes={outcomes} stats={stats} active={active} />
+                  <Guessing socket={socket} clues={clues} outcomes={outcomes} stats={stats} active={active} showGuessingBtns={active.status} />
                 )
               )
             ) :
@@ -174,7 +171,7 @@ class App extends React.Component {
           )}
           </main>
           <footer>
-            {(status !== "setting_up" || status !== "end_game") && <button onClick={this.endGame} className="end-game">End Game</button>}
+            {(status !== "setting_up" && status !== "end_game") && <button onClick={this.endGame} className="end-game">End Game</button>}
           </footer>
         </div>
     );
