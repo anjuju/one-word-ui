@@ -6,9 +6,9 @@ $pink: #e65eaf;
 $orange: #e2612e;
 $yellow: #c98c09;
 $green: #1bad0a;
-$teal: #0a5c5f;
+$teal: #10b5bb;
 $blue: #1679db;
-$purple: #6213d1;
+$purple: #8c3ef8;
 $black: #000000;
 // $color-list: $red, $hotPink, $pink, $orange, $yellow, $green, $teal, $blue, $purple, $black;
 $color-map: (
@@ -246,6 +246,34 @@ footer{
   padding-top: 5vw;
 }
 
+.guessing_btns {
+  margin-top: 3vh;
+}
+
+#guessing_next-round-btn {
+  display: none;
+}
+
+#guessing__active-word {
+  display: none;
+  width: 30vw;
+  margin: auto;
+}
+
+/* Stats */
+
+.stats__container {
+  margin-top: 5vw;
+  padding: 1vw;
+  border-top: 5px dotted white;
+  border-bottom: 5px dotted white;
+  min-width: 500px;
+}
+
+.stats__title {
+  font-size: 3.5vw;
+}
+
 .outcomes__container {
   border: 5px double white;
   border-radius: 10px;
@@ -253,7 +281,51 @@ footer{
   text-align: right;
 
   width: 10vw;
-  margin: 5vw auto;
+  margin: 3vw auto;
+}
+
+#stats__more-stats {
+  border: 5px double white;
+  border-radius: 20px;
+  padding: 2vw 1vw;
+  margin: 3vw auto;
+  width: 50vw;
+
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.stats__more-stats__row {
+  display: flex;
+  height: 4vw;
+  line-height: 4vw;
+  border-top: 2px solid white;
+
+  &--labels {
+    border-top: none;
+  }
+
+  &--long {
+    height: 5.6vw;
+    line-height: 2.7vw;
+  }
+
+  .stats__more-stats__round {
+    width: 7vw;
+    border-right: 1px solid white;
+  }
+
+  .stats__more-stats__word {
+    width: 30vw;
+    border-right: 1px solid white;
+  }
+
+  .stats__more-stats__outcome {
+    width: 10vw;
+  }
+
 }
 
 /* Word Card */
@@ -279,7 +351,8 @@ footer{
 .show-cards {
   display: grid;
   grid-template-columns: 30vw 30vw;
-  margin: 5vh;
+  justify-content: center;
+  margin: 3vh;
 }
 
  
@@ -327,8 +400,42 @@ footer{
     grid-template-columns: 35vw 35vw;
   }
 
+  #guessing__active-word {
+    width: 35vw;
+  }
+
   .outcomes__container {
     width: 100px;
+  }
+
+  .stats__title {
+    font-size: 30px;
+  }
+
+  #stats__more-stats {
+    width: 500px;
+  }
+
+  .stats__more-stats__row {
+    height: 40px;
+    line-height: 40px;
+
+    &--long {
+      height: 60px;
+      line-height: 30px;
+    }
+  
+    .stats__more-stats__round {
+      width: 90px;
+    }
+  
+    .stats__more-stats__word {
+      width: 230px;
+    }
+  
+    .stats__more-stats__outcome {
+      width: 130px;
+    }
   }
 
   footer {
@@ -347,11 +454,39 @@ footer{
     grid-template-columns: 80vw;
   }
 
+  #guessing__active-word {
+    width: 80vw;
+  }
+
   .clue-giver__new-word {
     bottom: 3vh;
     left: 37vw;
     font-size: 16px;
     height: 6vh;
+  }
+  
+  .stats__more-stats__row {
+    font-size: 16px;
+    height: 40px;
+    line-height: 40px;
+
+    &--long {
+      height: 50px;
+      line-height: 25px;
+    }
+  
+    .stats__more-stats__round {
+      width: 50px;
+    }
+  
+    .stats__more-stats__word {
+      width: 200px;
+    }
+  
+    .stats__more-stats__outcome {
+      width: 100px;
+    }
+  
   }
 
 }

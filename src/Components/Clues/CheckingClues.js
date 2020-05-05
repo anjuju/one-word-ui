@@ -17,8 +17,12 @@ class CheckingClues extends React.Component {
     });
   }
 
-  removeClue = (clueBundle, i) => {
-    this.props.socket.emit('removeClue', { clue: clueBundle.clue });
+  removeClue = (clueBundle) => {
+    let confirmRemove = window.confirm(`Are you sure you want to remove "${clueBundle.clue}"?`);
+    
+    if (confirmRemove) {
+      this.props.socket.emit('removeClue', { clue: clueBundle.clue });
+    }    
   }
 
   onFinishChecking = () => {
@@ -30,10 +34,10 @@ class CheckingClues extends React.Component {
       <div className="check-clues__container">
         Please remove any duplicate clues.
         <div className="show-cards">
-          {this.state.clues.map((clueBundle, i) => (
+          {this.state.clues.map((clueBundle) => (
             <div key={clueBundle.player_name} className="check-clues__clue">
               <WordCard name={clueBundle.player_name} color={clueBundle.color} content={clueBundle.clue} />
-              <button className="check-clues__remove-btn" onClick={()=>this.removeClue(clueBundle, i)}>X</button>
+              <button className="check-clues__remove-btn" onClick={()=>this.removeClue(clueBundle)}>X</button>
             </div>
           ))}
         </div>

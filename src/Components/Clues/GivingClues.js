@@ -38,7 +38,11 @@ class GivingClues extends React.Component {
   }
 
   handleGetNewWord = () => {
-    this.props.socket.emit('getNewWord');
+    let confirmNewWord = window.confirm("Are you sure you want to change the word?");
+
+    if (confirmNewWord) {
+      this.props.socket.emit('getNewWord');
+    }
   }
 
   handleOntoClueChecking = () => {

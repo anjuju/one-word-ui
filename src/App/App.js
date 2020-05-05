@@ -8,16 +8,17 @@ import CheckingClues from '../Components/Clues/CheckingClues';
 import Guessing from '../Components/Guess/Guessing';
 
 import socketIOClient from 'socket.io-client';
-const socketEndPoint = '18.224.27.206:8080/';
+import Outcomes from '../Components/Cards/Outcomes';
+const socketEndPoint = 'localhost:8080/';
 const socket = socketIOClient.connect(socketEndPoint); 
 
 // const api = process.env.REACT_APP_ONE_WORD_API;
 
 class App extends React.Component {
   state = {
-    name: '',
+    name: 'aj',
     color: '',
-    status: 'setting_up',
+    status: 'guessing',
     active: {
       status: false,
       activePlayer: 'angelica',
@@ -36,7 +37,13 @@ class App extends React.Component {
       correct: 0,
       skip: 0,
       wrong: 0,
-    }
+    },
+    stats: [
+      {round: 1, active_word: 'test', outcome: 'correct'},
+      {round: 2, active_word: 'really really really really really long word', outcome: 'skip'},
+      {round: 3, active_word: 'really really really long word', outcome: 'wrong'},
+      {round: 4, active_word: 'really really really long word', outcome: 'wrong'},
+    ]
   }
 
   componentDidMount() {
@@ -89,14 +96,21 @@ class App extends React.Component {
       });
     });
 
-    socket.on('outcomes', data => {
-      const { outcomes } = data;
+    socket.on('stats', data => {
+      const { outcomes, stats } = data;
       this.setState({
-        outcomes
+        outcomes,
+        stats
       });
     });
 
-    socket.on('restart', () => {
+    socket.on('endingGame', () => {
+      this.setState({
+        status: "end_game"
+      });
+    });
+
+    socket.on('startingNewGame', () => {
       this.setState({
         status: "setting_up"
       });
@@ -116,17 +130,19 @@ class App extends React.Component {
     socket.emit('submitClue', { name: this.state.name, color: this.state.color, clue });
   }
 
-  updateOutcomes = (outcome) => {
-    socket.emit('updateOutcomes', { outcome });
-    socket.emit('startRound');
-  }
-
   endGame = () => {
     socket.emit('endGame');
   }
 
+  newGame = () => {
+    const start = window.confirm('Start new game?');
+    if (start) {
+      socket.emit('startNewGame');
+    }
+  }
+
   render() {
-    const { status, active, clues, outcomes, name } = this.state;
+    const { status, active, clues, outcomes, stats, name } = this.state;
         
     return (
         <div className="App__container">
@@ -134,24 +150,31 @@ class App extends React.Component {
             <h1>One Word</h1>
           </header>
           <main>
-          {(status === "setting_up" || name === '' ?
-            <SetUp socket={socket} onSubmitName={this.handleSubmitName} /> :
-            (name &&
-              (status !== "guessing" ?
-                (active.status ?
-                  <Waiting/> :
-                  (status === "giving_clues" ?
-                    <GivingClues socket={socket} active={active} onSubmit={this.onClueSubmit} /> :
-                    <CheckingClues socket={socket} clues={clues} />
-                  )
-                ) :
-                <Guessing clues={clues} outcomes={outcomes} updateOutcomes={this.updateOutcomes} active={active} />
+          {(status !== "end_game" ?
+            (status === "setting_up" || name === '' ?
+              <SetUp socket={socket} onSubmitName={this.handleSubmitName} /> :
+              (name &&
+                (status !== "guessing" ?
+                  (active.status ?
+                    <Waiting/> :
+                    (status === "giving_clues" ?
+                      <GivingClues socket={socket} active={active} onSubmit={this.onClueSubmit} /> :
+                      <CheckingClues socket={socket} clues={clues} />
+                    )
+                  ) :
+                  <Guessing socket={socket} clues={clues} outcomes={outcomes} stats={stats} active={active} />
+                )
               )
-            )
+            ) :
+            <div className="end-game">
+              <br/>
+              <button onClick={this.newGame} className="end-game--new button--light">New Game</button>
+              <Outcomes outcomes={outcomes} stats={stats} />             
+            </div>
           )}
           </main>
           <footer>
-            {status !== "setting_up" && <button onClick={this.endGame} className="end-game">End Game</button>}
+            {(status !== "setting_up" || status !== "end_game") && <button onClick={this.endGame} className="end-game">End Game</button>}
           </footer>
         </div>
     );
