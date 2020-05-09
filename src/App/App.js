@@ -9,7 +9,7 @@ import Guessing from '../Components/Guess/Guessing';
 
 import socketIOClient from 'socket.io-client';
 import Outcomes from '../Components/Cards/Outcomes';
-const socketEndPoint = 'localhost:8080/';
+const socketEndPoint = '3.16.161.69:8080/';
 const socket = socketIOClient.connect(socketEndPoint); 
 
 // const api = process.env.REACT_APP_ONE_WORD_API;
