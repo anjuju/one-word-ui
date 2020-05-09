@@ -6,11 +6,11 @@ class Guessing extends React.Component {
   
   componentDidMount() {
     // show next round button after 5 min
-    setTimeout(() => {
-      const nextRoundBtn = document.getElementById('guessing_next-round-btn');
-      nextRoundBtn.style.display = 'block';
-      nextRoundBtn.style.margin = '1vw auto';
-    }, 300000);
+    // setTimeout(() => {
+    //   const nextRoundBtn = document.getElementById('guessing_next-round-btn');
+    //   nextRoundBtn.style.display = 'block';
+    //   nextRoundBtn.style.margin = '1vw auto';
+    // }, 300000);
   }
 
   revealWord = (e) => {

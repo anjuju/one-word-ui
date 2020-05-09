@@ -1,7 +1,14 @@
 import React from 'react';
 
 class Outcomes extends React.Component {
-  
+
+  componentDidMount() {
+    // sort stats
+    this.props.stats.sort((a,b) => {
+      return parseInt(a.round) - parseInt(b.round);
+    });
+  }
+
   showMoreStats = () => {
     document.getElementById('stats__more-btn').style.display = 'none';
     

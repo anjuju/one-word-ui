@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-const instructions = "This is a collaborative game. One person from your team will try to guess a mystery word using only one-word clues given by the other team members. The other team members cannot discuss their clues. If players write the same clue, they will cancel out and the guesser won't be able to see it."
+const instructions = "This is a collaborative game. One person from your team will try to guess a mystery word using only one-word clues given by the other team members. The other team members cannot discuss their clues. If players write the same clue, they will cancel out and the guesser won't be able to see it. The game will end after 15 rounds."
 
 const colors = ['red', 'hotPink', 'pink', 'orange', 'yellow', 'green', 'teal', 'blue', 'purple', 'black'];
 

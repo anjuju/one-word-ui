@@ -165,6 +165,8 @@ class App extends React.Component {
             ) :
             <div className="end-game">
               <br/>
+              <h1>End Game!</h1>
+              <br/>
               <button onClick={this.newGame} className="end-game--new button--light">New Game</button>
               <Outcomes outcomes={outcomes} stats={stats} />             
             </div>
