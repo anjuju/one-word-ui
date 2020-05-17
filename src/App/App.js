@@ -6,10 +6,12 @@ import Waiting from '../Components/Guess/Waiting';
 import GivingClues from '../Components/Clues/GivingClues';
 import CheckingClues from '../Components/Clues/CheckingClues';
 import Guessing from '../Components/Guess/Guessing';
+import Outcomes from '../Components/Cards/Outcomes';
+import Players from '../Components/Cards/Players';
 
 import socketIOClient from 'socket.io-client';
-import Outcomes from '../Components/Cards/Outcomes';
-const socketEndPoint = '3.16.36.236:8080/';
+// const socketEndPoint = '3.16.36.236:8080/';
+const socketEndPoint = 'localhost:8080/';
 const socket = socketIOClient.connect(socketEndPoint); 
 
 // const api = process.env.REACT_APP_ONE_WORD_API;
@@ -40,7 +42,7 @@ class App extends React.Component {
     },
     stats: [
       {round: 1, active_word: 'null', outcome: 'null'},
-    ]
+    ],
   }
 
   componentDidMount() {
@@ -171,6 +173,7 @@ class App extends React.Component {
               <Outcomes outcomes={outcomes} stats={stats} />             
             </div>
           )}
+          <Players socket={socket} status={status} />
           </main>
           <footer>
             {(status !== "setting_up" && status !== "end_game") && <button onClick={this.endGame} className="end-game">End Game</button>}

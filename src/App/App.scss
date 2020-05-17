@@ -327,6 +327,27 @@ footer{
 
 }
 
+/* Players */
+.players__container {
+  margin-top: 5vw;
+  padding: 1vw;
+}
+
+.players__title {
+  font-size: 3.5vw;
+  text-decoration: underline;
+}
+
+.players__name {
+  display: flex;
+  justify-content: center;
+}
+
+.players__check {
+  color: white;
+  margin-left: 1vw;
+}
+
 /* Word Card */
 .word-card {
   border: 1vw solid;

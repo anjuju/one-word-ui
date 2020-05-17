@@ -26,14 +26,14 @@ class GivingClues extends React.Component {
 
   submitClue = (e) => {
     const { clue } = this.state;
-    if (clue !== '' && !clue.includes(' ')) {
+    if (clue !== '' || !clue.includes(' ') || clue.length>20) {
       e.target.disabled = true;
       this.setState({
         submitted: true
       });
       this.props.onSubmit(clue);
     } else {
-      alert('Please enter a one-word clue');
+      alert('Please enter a one-word clue (less than 20 chars)');
     }
   }
 

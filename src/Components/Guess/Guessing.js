@@ -11,6 +11,8 @@ class Guessing extends React.Component {
     //   nextRoundBtn.style.display = 'block';
     //   nextRoundBtn.style.margin = '1vw auto';
     // }, 300000);
+
+    // show next round button to everyone
   }
 
   revealWord = (e) => {
